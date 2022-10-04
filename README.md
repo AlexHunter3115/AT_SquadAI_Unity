@@ -36,7 +36,7 @@
 
 <br/>
 Additional Notes:<br/>
-finite state machine is the only way to about doing this  
+finite state machine is the only way to about doing this  <br/>
 minmax was a rejected alog  
 
 
