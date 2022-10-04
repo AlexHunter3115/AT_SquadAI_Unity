@@ -22,17 +22,22 @@
 
 | Progress    | Task        | Notes   |     
 | ----------- | ----------- | -----------   |
+| ****** | Game | ******   |
 | 🔴 |Start repo with the unity project in it ||
-| 🔴 |Build level | desert style level/ reach the flag |
-| 🔴 |Build basic movement controller for main character |  |
-| 🔴 |Make the squad mates | should use maybe something along the lines of lerping |
-| 🔴 |Make the enemy |  |
-| 🔴 |shooting via raycast with inacuracy and firerate |  |
-| 🔴 |bird view | select individually where everyone goes |
-| 🔴 |incorporate cover positions | positions that the squad can take when in need of cover |
-| 🔴 |different formations | the payer can decide what formation its squad can take |
-| 🔴 |getting into vehicle |  |
 | 🔴 |UI or input for all of the decision making |  |
+| 🔴 |Build level | desert style level/ reach the flag |
+| 🔴 |shooting via raycast with inacuracy and firerate |  |
+| 🔴 |incorporate cover positions | positions that the squad can take when in need of cover |
+| ****** | Player | ******   |
+| 🔴 |Build basic movement controller for main character |  |
+| 🔴 |bird view | select individually where everyone goes ||
+| 🔴 |different formations | the payer can decide what formation its squad can take |
+| ****** | Enemy | ******   |
+| 🔴 |Make the enemy |  |
+| ****** | SquadMates | ******   |
+| 🔴 |Make the squad mates | should use maybe something along the lines of lerping |
+| 🔴 |getting into vehicle |  |
+
 
 <br/>
 Additional Notes:<br/>
