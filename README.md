@@ -36,9 +36,12 @@
 
 <br/>
 Additional Notes:<br/>
+finite state machine is the only way to about doing this  
+minmax was a rejected alog  
 
 
 Other usefull links related to this project:<br/>
+
 
 
 
