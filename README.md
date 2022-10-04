@@ -3,9 +3,8 @@
 - - - -
 
 
-
-🟢 --- Done<br/>
 🔴 --- Not done<br/>
+🟢 --- Done<br/>
 🟠 --- Half way done<br/>
 🔵 --- Getting close to finishing<br/><br/>
 
