@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class TestNevMash : MonoBehaviour
 {
-    [SerializeField] private Transform movepositionTransform;
+    public Transform movepositionTransform;
 
     private NavMeshAgent navMeshAgent;
 
@@ -20,5 +20,8 @@ public class TestNevMash : MonoBehaviour
     private void Update()
     {
         navMeshAgent.destination = movepositionTransform.position;
+
+        transform.LookAt(Camera.main.transform);
+
     }
 }
