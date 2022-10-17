@@ -71,6 +71,24 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TopViewToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab378bba-5431-4324-b54a-07caec3a67f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""moveFloorsView"",
+                    ""type"": ""Value"",
+                    ""id"": ""c7aecff4-4ae4-42a4-95d7-f01cbd90f01a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -172,6 +190,50 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""DeselectTeam"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c39e6cef-472d-4bb9-9cdc-ee7928734817"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TopViewToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""334b54bd-9583-4142-814d-b748800c7519"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveFloorsView"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""69805ad3-3bd8-4565-8682-4c433ad8680c"",
+                    ""path"": ""<Keyboard>/leftBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveFloorsView"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""15e3dcbe-65c2-469a-97e9-8af2fc7f8438"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveFloorsView"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -185,6 +247,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_SelectTeamMate = m_Player.FindAction("SelectTeamMate", throwIfNotFound: true);
         m_Player_DeselectTeam = m_Player.FindAction("DeselectTeam", throwIfNotFound: true);
+        m_Player_TopViewToggle = m_Player.FindAction("TopViewToggle", throwIfNotFound: true);
+        m_Player_moveFloorsView = m_Player.FindAction("moveFloorsView", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +313,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_SelectTeamMate;
     private readonly InputAction m_Player_DeselectTeam;
+    private readonly InputAction m_Player_TopViewToggle;
+    private readonly InputAction m_Player_moveFloorsView;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -258,6 +324,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @SelectTeamMate => m_Wrapper.m_Player_SelectTeamMate;
         public InputAction @DeselectTeam => m_Wrapper.m_Player_DeselectTeam;
+        public InputAction @TopViewToggle => m_Wrapper.m_Player_TopViewToggle;
+        public InputAction @moveFloorsView => m_Wrapper.m_Player_moveFloorsView;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -282,6 +350,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @DeselectTeam.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectTeam;
                 @DeselectTeam.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectTeam;
                 @DeselectTeam.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectTeam;
+                @TopViewToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTopViewToggle;
+                @TopViewToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTopViewToggle;
+                @TopViewToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTopViewToggle;
+                @moveFloorsView.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveFloorsView;
+                @moveFloorsView.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveFloorsView;
+                @moveFloorsView.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveFloorsView;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -301,6 +375,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @DeselectTeam.started += instance.OnDeselectTeam;
                 @DeselectTeam.performed += instance.OnDeselectTeam;
                 @DeselectTeam.canceled += instance.OnDeselectTeam;
+                @TopViewToggle.started += instance.OnTopViewToggle;
+                @TopViewToggle.performed += instance.OnTopViewToggle;
+                @TopViewToggle.canceled += instance.OnTopViewToggle;
+                @moveFloorsView.started += instance.OnMoveFloorsView;
+                @moveFloorsView.performed += instance.OnMoveFloorsView;
+                @moveFloorsView.canceled += instance.OnMoveFloorsView;
             }
         }
     }
@@ -312,5 +392,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnSelectTeamMate(InputAction.CallbackContext context);
         void OnDeselectTeam(InputAction.CallbackContext context);
+        void OnTopViewToggle(InputAction.CallbackContext context);
+        void OnMoveFloorsView(InputAction.CallbackContext context);
     }
 }

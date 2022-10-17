@@ -11,6 +11,7 @@ public class SquadManager : MonoBehaviour
     public GameObject teamMatePrefab;
 
     private PlayerScript playerScript;
+    public GameObject SquadFormations;
 
     public int squadSize = 4;
 
@@ -33,7 +34,7 @@ public class SquadManager : MonoBehaviour
         {
             GameObject newRef = teamMates[i] = Instantiate(teamMatePrefab);  //adds to the enemy and instatiat
 
-            newRef.GetComponent<TestNevMash>().movepositionTransform = playerScript.SquadFormations[(int)playerScript.currFormation].transform.GetChild(i).transform;   // sets the nevmesh
+            //newRef.GetComponent<TestNevMash>().movepositionTransform = playerScript.SquadFormations[(int)playerScript.currFormation].transform.GetChild(i).transform;   // sets the nevmesh
             newRef.transform.position = playerScript.SquadFormations[(int)playerScript.currFormation].transform.GetChild(i).position;
         }
 
@@ -52,9 +53,9 @@ public class SquadManager : MonoBehaviour
         {
             //meObject newRef = teamMates[i];  //adds to the enemy and instatiat
 
-            teamMates[i].GetComponent<TestNevMash>().movepositionTransform = playerScript.SquadFormations[(int)playerScript.currFormation].transform.GetChild(i).transform;   // sets the nevmesh
-            
-        }
+            //int formInd = (int)playerScript.currFormation;
 
+            teamMates[i].GetComponent<TestNevMash>().movepositionTransform = SquadFormations.transform.GetChild((int)playerScript.currFormation).transform.GetChild(i).transform;   // sets the nevmesh
+        }
     }
 }

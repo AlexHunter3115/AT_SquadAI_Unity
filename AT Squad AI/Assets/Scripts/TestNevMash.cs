@@ -9,7 +9,7 @@ public class TestNevMash : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
 
-
+    //public GameObject thing;
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -21,7 +21,7 @@ public class TestNevMash : MonoBehaviour
     {
         navMeshAgent.destination = movepositionTransform.position;
 
-        transform.LookAt(Camera.main.transform);
+        //transform.LookAt(thing.transform);
 
     }
-}
+ }

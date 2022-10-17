@@ -1,15 +1,15 @@
 /*
  * 
  * 
- * we need to get the raycast distance shit going for the formations the nevmesh doestn really work 
+ * most likely going to have to change the formation thing but leave it for now
  * 
  * 
  * need to set up the states
  * 
  * 
- * shooting
+ * stop time?
  * 
  * 
- * and the houses
+ * 
  * 
  */
