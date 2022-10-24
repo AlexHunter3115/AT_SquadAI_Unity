@@ -15,16 +15,12 @@ public class SimpleObjectCover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < listOfPossiblePos.Count; i++)
-        {
-            listOfAvailability.Add(true);
-        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (showCubes) 
         {
             coverCubes.SetActive(true);
@@ -35,7 +31,6 @@ public class SimpleObjectCover : MonoBehaviour
         }
 
         showCubes = false;
-
     }
 
     void OnDrawGizmosSelected()
@@ -53,12 +48,11 @@ public class SimpleObjectCover : MonoBehaviour
 
 
 
-    public int findIndexCover(GameObject cover) 
+    public int findIndexCoverCubes(GameObject cover) 
     {
         int idx = 0;
         foreach (Transform child in coverCubes.transform) 
         {
-
             if (cover == child.gameObject)
             {
                 return idx;
@@ -71,5 +65,25 @@ public class SimpleObjectCover : MonoBehaviour
 
         return idx;
         
+    }
+
+
+    public int findIndexCoverTransforms(GameObject cover)
+    {
+        int idx = 0;
+        foreach (Transform pos in listOfPossiblePos)
+        {
+            if (cover == pos.gameObject)
+            {
+                return idx;
+            }
+
+            idx++;
+        }
+
+        idx = -1;
+
+        return idx;
+
     }
 }

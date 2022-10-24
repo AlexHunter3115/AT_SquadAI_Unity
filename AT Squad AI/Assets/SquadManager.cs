@@ -40,11 +40,7 @@ public class SquadManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
 
     public void ChangeSquadFormation() 
@@ -54,8 +50,21 @@ public class SquadManager : MonoBehaviour
             //meObject newRef = teamMates[i];  //adds to the enemy and instatiat
 
             //int formInd = (int)playerScript.currFormation;
+            TeamMateStateManager TMstateMan = teamMates[i].GetComponent<TeamMateStateManager>();
 
-            teamMates[i].GetComponent<TestNevMash>().movepositionTransform = SquadFormations.transform.GetChild((int)playerScript.currFormation).transform.GetChild(i).transform;   // sets the nevmesh
+            if (TMstateMan.Allerted) 
+            {
+                TMstateMan.ChangeState(6);
+            }
+            else 
+            {
+                TMstateMan.ChangeState(7);
+            }
+
+            TMstateMan.FormationTran = SquadFormations.transform.GetChild((int)playerScript.currFormation).transform.GetChild(i).transform;
+
+            //teamMates[i].GetComponent<TeamMateStateManager>().ChangeState()
+            //teamMates[i].GetComponent<TestNevMash>().movepositionTransform = SquadFormations.transform.GetChild((int)playerScript.currFormation).transform.GetChild(i).transform;   // sets the nevmesh
         }
     }
 }

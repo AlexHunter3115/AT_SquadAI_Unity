@@ -96,6 +96,8 @@ public class PlayerScript : MonoBehaviour
         if (commandingTroops)
             CoverRayCastManager();
 
+
+        PatrolAroundPoint();
         // add firerate 
         if (Input.GetKey(KeyCode.Mouse0) && !commandingTroops)
         {
@@ -129,13 +131,7 @@ public class PlayerScript : MonoBehaviour
                 GameObject newRef = Instantiate(bulletPrefab);
                 newRef.transform.position = outHit.point;
             }
-
-
         }
-
-
-
-
     }
 
 
@@ -167,18 +163,18 @@ public class PlayerScript : MonoBehaviour
                             if (outhit.transform.tag == "BasicCover")
                             {
 
-                                int idx = newRef.transform.GetComponent<SimpleObjectCover>().findIndexCover(outhit.transform.gameObject);
+                                int idx = newRef.transform.GetComponent<SimpleObjectCover>().findIndexCoverCubes(outhit.transform.gameObject);
                                 //Debug.Log($"specific hit {idx}");
 
 
-                                SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TestNevMash>().movepositionTransform = newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx];
+                                SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransform = newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx].position;
+                                // here i need to do the same thing as the state things to check where the shit is, just check the names
                             }
 
                         }
                     }
                     //Debug.Log($"got the cover");
                 }
-
             }
 
             if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out hit, Mathf.Infinity, ~houseCover) || playerInHouse)
@@ -226,12 +222,8 @@ public class PlayerScript : MonoBehaviour
                         SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TestNevMash>().movepositionTransform = outhitd.transform.GetComponentInParent<HouseFloorLogic>().coverPos[idx];
 
                     }
-
                 }
             }
-
-
-
         }
         else 
         {
@@ -255,7 +247,7 @@ public class PlayerScript : MonoBehaviour
                             if (outhit.transform.tag == "BasicCover")
                             {
                                 Debug.Log($"cvbvcbcvb");
-                                int idx = newRef.transform.GetComponent<SimpleObjectCover>().findIndexCover(outhit.transform.gameObject);
+                                int idx = newRef.transform.GetComponent<SimpleObjectCover>().findIndexCoverCubes(outhit.transform.gameObject);
 
                                 SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TestNevMash>().movepositionTransform = newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx];
                             }
@@ -281,25 +273,58 @@ public class PlayerScript : MonoBehaviour
                             if (outhit.transform.tag == "HouseCover")
                             {
                                 int idx = newRef.transform.GetComponent<HouseFloorLogic>().findIndexCover(outhit.transform.gameObject);
-                                Debug.Log($"specific hit {idx}");
-
-
                                 SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TestNevMash>().movepositionTransform = newRef.transform.GetComponent<HouseFloorLogic>().coverPos[idx];
-                                Debug.Log($"{outhit.transform.name}");
                             }
-
-
                         }
                     }
-                    //Debug.Log($"got the cover");
-
                 }
             }
-
         }
     }
 
 
+
+
+
+    // i want this to be in a soecific spot, wait a bit thengo
+    public void PatrolAroundPoint() 
+    {
+
+
+        RaycastHit outhit;
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+
+
+            //Debug.Log($"dwuaihuiwdauhidwahuidwaiuh");
+
+
+            if (controlPlayer)
+            {
+                if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity, 13))
+                {
+                    Debug.Log($"{Mathf.Infinity}");
+                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransform = outhit.point;
+
+                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().ChangeState(8);
+                }
+            }
+            else
+            {
+                if (Physics.Raycast(camTV.transform.position, camTV.transform.forward, out outhit, Mathf.Infinity, 13))
+                {
+                    //SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransform = newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx];
+
+                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransform = outhit.point;
+
+                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().ChangeState(8);
+                }
+            }
+
+
+
+        }
+    }
 
 
     public void ProcessMove(Vector2 input) 
@@ -347,7 +372,6 @@ public class PlayerScript : MonoBehaviour
        
     }
 
-
     public void ToggleTopView()
     {
         camTV.enabled = !camTV.enabled;
@@ -386,14 +410,16 @@ public class PlayerScript : MonoBehaviour
 
         TopViewCamLogic.instance.changeFloorView((int)changeInput);
 
-        //Debug.Log(changeInput);
     }
 
 
     private void test()
     {
-        commandingTroops = false;
-        selectedTeamMate = 0;
+        //commandingTroops = false;
+        //selectedTeamMate = 0;
+        Debug.Log($"called for the set cover");
+        SquadManager.instance.teamMates[0].GetComponent<TeamMateStateManager>().ChangeState(1);
+        
     }
 
 

@@ -7,6 +7,8 @@ TagManager:
   - BasicCover
   - TeamMate
   - HouseCover
+  - Enemy
+  - BasicCoverPos
   layers:
   - Default
   - TransparentFX
@@ -20,8 +22,8 @@ TagManager:
   - HousePos
   - HouseCover
   - House
-  - 
-  - 
+  - Ghost
+  - Ground
   - 
   - 
   - 
