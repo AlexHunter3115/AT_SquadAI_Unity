@@ -395,12 +395,22 @@ public class PlayerScript : MonoBehaviour
     private void TeamSelectFunction()
     {
         commandingTroops = true;
+        Debug.Log($"calclaccalaclcalcalllcal");
+        SquadManager.instance.uiList[selectedTeamMate].GetComponent<TeamMateUISlot>().imageBack.color = new Color(0.6f, 0.6f, 0.6f, 1);
         selectedTeamMate++;
+
+        
+
 
         if (SquadManager.instance.squadSize <= selectedTeamMate) 
         {
             selectedTeamMate = 0;
         }
+
+
+
+        SquadManager.instance.uiList[selectedTeamMate].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
+
     }
 
 

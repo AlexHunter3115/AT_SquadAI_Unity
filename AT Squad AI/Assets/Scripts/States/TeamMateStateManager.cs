@@ -113,7 +113,7 @@ public class TeamMateStateManager : MonoBehaviour
     public float coverCooldown;
 
 
-
+    public string memberName;
 
     public enum CoverType 
     {
@@ -143,6 +143,11 @@ public class TeamMateStateManager : MonoBehaviour
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+
+
+
+        memberName =  Random.Range(0, 9999).ToString();
+
 
         health = 100;
 
