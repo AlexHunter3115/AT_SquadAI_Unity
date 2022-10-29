@@ -34,21 +34,12 @@
                 },
                 {
                     "name": "SelectTeamMate",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "f1fbc362-ba36-4252-a5a7-e3b407c5a041",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DeselectTeam",
-                    "type": "Button",
-                    "id": "932022df-13d1-485d-a330-fd159ff346ac",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "TopViewToggle",
@@ -67,6 +58,123 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SelectAllTeamMates",
+                    "type": "Button",
+                    "id": "d92f73ab-c390-4a8c-b5ea-f123e90b69c3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DeselectAllTeamMates",
+                    "type": "Button",
+                    "id": "3fe1ea29-de0f-45f8-9456-79851b401152",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShowOptions",
+                    "type": "Value",
+                    "id": "ad6376d2-5390-451c-bf52-ff95d64d2ebc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ShowCoverPositions",
+                    "type": "Button",
+                    "id": "c2029be1-7e73-460d-8c06-7d14eec7f7f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MultiSelect",
+                    "type": "Button",
+                    "id": "b6c4a167-bd29-4fa2-9c68-d04bf73b38d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FindCover",
+                    "type": "Button",
+                    "id": "5047e66f-f4ac-4b64-b5e3-b461522fde5e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ForceGoToCover",
+                    "type": "Button",
+                    "id": "d63234c0-dffb-4182-86a1-6e5a8c253fbd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldFire",
+                    "type": "Button",
+                    "id": "f9490cc4-4f4f-4157-a4c6-772667f358f8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseAbility",
+                    "type": "Button",
+                    "id": "f2e8e287-7a23-4ad9-a38d-4f72de679550",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "IntoFormation",
+                    "type": "Button",
+                    "id": "d6787533-85b6-4511-a054-d1448a845078",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DefendePoint",
+                    "type": "Button",
+                    "id": "f63edfc8-e675-4261-bf14-5214e27b384a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PatrolPoint",
+                    "type": "Button",
+                    "id": "3ec3ad4c-c306-4970-abe2-8370046027e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AdvanceToPoint",
+                    "type": "Button",
+                    "id": "6f09e5d2-0a9a-4a5f-acf1-bc0c3d7f8f88",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -149,28 +257,6 @@
                 },
                 {
                     "name": "",
-                    "id": "ae7c1a90-2245-42af-aeef-212db2949674",
-                    "path": "<Keyboard>/t",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SelectTeamMate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f77c7dac-4489-42e0-8892-c67d8ad8be7c",
-                    "path": "<Keyboard>/t",
-                    "interactions": "MultiTap",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DeselectTeam",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c39e6cef-472d-4bb9-9cdc-ee7928734817",
                     "path": "<Keyboard>/x",
                     "interactions": "",
@@ -212,6 +298,204 @@
                     "action": "moveFloorsView",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "3e3bdd4e-7d98-4997-84c5-bda064a24ac8",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectTeamMate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "75cb8317-e639-4f01-9673-8e53aa0ecadb",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectTeamMate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "f8f61276-d141-40e9-9823-f81142768e69",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectTeamMate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "729019db-acf9-4403-94ea-1a9ebf36007e",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectAllTeamMates",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0311a10d-ec43-4ca4-b727-2a8eeb5ef946",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeselectAllTeamMates",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0fe0ba09-049d-4f5f-b42e-0a5da912ec8f",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowCoverPositions",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5266a915-7425-4afc-92d7-4536e1819d22",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "Press,Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowOptions",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Shift+mouse1",
+                    "id": "0bbb6e02-0508-4b84-bfd1-1fac0d013db2",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MultiSelect",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "e0083fab-be5e-4f65-bc97-b784aea81392",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MultiSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "cd1a2ffa-2270-4910-a6dd-fe0e55d85302",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MultiSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d59847ca-f9a1-401e-8812-24360dcaa656",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FindCover",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fa71670-2f76-46bc-8136-e863c81a5840",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "020f5af1-8b64-474d-a97e-3fcb29fad804",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e00facf-62c6-40f4-992f-0e9e6f56b66d",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IntoFormation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4725a827-17ed-47d8-8617-0067bdc82321",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DefendePoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aab58cb2-a5e4-4cc8-9389-bd0f5b43f5ff",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PatrolPoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02e8c004-e472-42af-9171-e42002a418a0",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AdvanceToPoint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de8b3ffc-7d5c-4756-a778-57f4709a1ad7",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ForceGoToCover",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

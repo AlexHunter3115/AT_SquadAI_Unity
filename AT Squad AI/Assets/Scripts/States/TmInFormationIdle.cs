@@ -10,6 +10,7 @@ public class TmInFormationIdle : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
+        teamMate.currStateText = "FORMATION I";
         Debug.Log(teamMate.transform.name + " is in the formation idle state ");
     }
 

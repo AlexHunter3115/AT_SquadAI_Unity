@@ -1,23 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TmGoToCover : TeamMateBaseState
 {
+
+
+
+    private float notShowingCooldown;
+    private float notShowingTimer;
     // this does different things depending if its under fire   
     public override void EnterState(TeamMateStateManager teamMate)
     {
+        teamMate.currStateText = "GO TO COVER";
         Debug.Log(teamMate.transform.name + " is in the go to cover state ");
+        
+        notShowingCooldown = 15f;
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
+
+
+
+
+
+
+        notShowingTimer += Time.deltaTime;
+
+        if (notShowingTimer >= notShowingCooldown)
+        {
+            Debug.Log($"iweqiwouwqioruwqiruwqioeuwqeiowqueqwieu");
+            notShowingTimer = 0;
+            teamMate.transform.position = teamMate.currCoverTransform.position;
+        }
+
+
+
         if (teamMate.Allerted) 
         {
             //should look at the enemy
         }
         
-        GoToPoint(teamMate.currCoverTransform, teamMate);
+        GoToPoint(teamMate.currCoverTransformVector3, teamMate);
 
         if (ReachedDestination(teamMate)) 
         {
@@ -45,9 +71,7 @@ public class TmGoToCover : TeamMateBaseState
                 }
             }
         }
-        else 
-        {
-        }
+        
 
     }
 }

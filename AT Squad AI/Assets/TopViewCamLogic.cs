@@ -56,20 +56,13 @@ public class TopViewCamLogic : MonoBehaviour
 
 
 
-
-
     public void changeFloorView(int floor) 
     {
         currentFloor += floor;    // this is going to be 1 
 
 
-
         if (currentFloor < 0) currentFloor = 0;
         if (currentFloor > 2) currentFloor = 2;
-
-
-
-
 
 
         for (int i = 0; i < buildingsList.Count; i++)   // going to go through all of the saved buildings in the array
@@ -78,24 +71,15 @@ public class TopViewCamLogic : MonoBehaviour
             
             for (int z = 0; z < buildingsList[i].transform.childCount; z++)  // loop through the floors
             {
-
                 if (currentFloor < z) 
                 {
-                    Debug.Log($"{buildingsList[i].transform.GetChild(z).transform.name}, in the nono ");
                     buildingsList[i].transform.GetChild(z).transform.GameObject().SetActive(false);
                 }
                 else 
                 {
-                    Debug.Log($"{buildingsList[i].transform.GetChild(z).transform.name}, in the yesysys ");
                     buildingsList[i].transform.GetChild(z).transform.GameObject().SetActive(true);
                 }
             }
-            
-
-
-
-
         }
-
     }
 }

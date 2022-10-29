@@ -6,6 +6,7 @@ using UnityEngine;
 public class TmbehindCoverFrontFight : TeamMateBaseState
 {
 
+    private bool hasMoved;
     private bool showing;
 
     private float showingCooldown;
@@ -22,10 +23,10 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
     {
         showing = false;
         Debug.Log(teamMate.transform.name + " is in the front fight state ");
+        teamMate.currStateText = "BCFF";
 
-
-        showingCooldown = 0.5f; //set the timer for how long the obj is going to be showing
-        notShowingCooldown = teamMate.coverCooldown;
+        showingCooldown = 3f; //set the timer for how long the obj is going to be showing
+        notShowingCooldown = 1f;
 
 
         ShowSelf(teamMate);

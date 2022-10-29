@@ -14,6 +14,7 @@ public class TmbehindCoverFrontIdle : TeamMateBaseState
     private float notShowingCooldown;
     private float notShowingTimer;
 
+    private bool hasMoved;
 
 
     //literally does nothing, they just spawned they just look around, still have some enemy check but overall do nothing
@@ -22,10 +23,10 @@ public class TmbehindCoverFrontIdle : TeamMateBaseState
     {
         showing = false;
         Debug.Log(teamMate.transform.name + " is in the front idle state ");
+        teamMate.currStateText = "BCFI";
 
-
-        showingCooldown = 1; //set the timer for how long the obj is going to be showing
-        notShowingCooldown = teamMate.coverCooldown;
+        showingCooldown = 3f; //set the timer for how long the obj is going to be showing
+        notShowingCooldown = 1f;
 
 
         ShowSelf(teamMate);

@@ -1,15 +1,23 @@
 /*
  * 
  * 
- * most likely going to have to change the formation thing but leave it for now
+ * need to change the formation thing so it doesnt cuause problems 
  * 
- * 
- * need to set up the states
- * 
- * 
- * stop time?
+ *
  * 
  * 
  * 
+ * need to check on the leaning
+ * need to add the checksk if they can shoot
+ * 
+ * 
+ * then add basic enemies
+ * 
+ * damage
+ * shooting
+ * 
+ * defend this point var
+ * 
+ * abilities
  * 
  */

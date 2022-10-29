@@ -139,6 +139,14 @@ MonoBehaviour:
   formationCooldown: 4
   shootingTimer: 0
   shootingCooldown: 0.5
+  coverTimer: 0
+  coverCooldown: 0
+  memberName: 
+  holdFire: 0
+  currStateText: 
+  currCoverType: 0
+  currCoverTransform: {x: 0, y: 0, z: 0}
+  enemyList: []
 --- !u!1 &2617468109701729474
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using TMPro;
 
 public class TeamMateStateManager : MonoBehaviour
 {
@@ -11,20 +13,30 @@ public class TeamMateStateManager : MonoBehaviour
         get { return CurrState; }
     }
 
-    private TeamMateBaseState[] statesList = new TeamMateBaseState[12] 
+
+
+
+    // need to add the advance cover 
+    // change the way around point works
+    // add the defend point
+    // add the shooting 
+    // check the anims
+    
+    private TeamMateBaseState[] statesList = new TeamMateBaseState[13] 
     {
-        new TmDead(),
+        new TmDead(),  //0 
         new TmFindCover(),
-        new TmGoToCover(),
+        new TmGoToCover(), // 2
         new TmIdleWaiting(),
-        new TmbehindCoverFrontFight(),
+        new TmbehindCoverFrontFight(), // 4
         new TmbehindCoverFrontIdle(),
-        new TmInFormationFight(),
+        new TmInFormationFight(),    // 6
         new TmInFormationIdle(),
-        new TmPatrollingAroundPoint(),
+        new TmPatrollingAroundPoint(),    //8 
         new TmUseAbility(),
-        new TmbehindCoverLateralActive(),
-        new TmbehindCoverLateralIdle()
+        new TmbehindCoverLateralActive(),  //10
+        new TmbehindCoverLateralIdle(),
+        new TmGoToForcedCover() //12
     };
 
 
@@ -108,12 +120,15 @@ public class TeamMateStateManager : MonoBehaviour
     public float shootingCooldown;   // should chnage based on class
 
 
-
     public float coverTimer;
     public float coverCooldown;
 
 
     public string memberName;
+    public bool holdFire;
+
+    public string currStateText;
+
 
     public enum CoverType 
     {
@@ -124,29 +139,25 @@ public class TeamMateStateManager : MonoBehaviour
     }
 
     public CoverType currCoverType;
-
-    public Vector3 currCoverTransform;
-
-
-
+    public Vector3 currCoverTransformVector3;
+    public Transform currCoverTransform;
+    public Transform currForcedCoverTransform;
 
 
+    public List<GameObject> enemyList;
 
 
-    public List<GameObject> enemyList; 
+    public Slider healthSlider;
+    public Text nameText;
+    public Text abilityText;
+    public Text StateText;
 
-
-
-
-
+    public LayerMask ignoreCoverLayermask;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-
-
-        memberName =  Random.Range(0, 9999).ToString();
 
 
         health = 100;
@@ -181,6 +192,11 @@ public class TeamMateStateManager : MonoBehaviour
         currState.EnterState(this);
 
         playerObj = GameObject.FindGameObjectWithTag("Player");
+
+
+        nameText.text = "Name: " + memberName;
+        abilityText.text = "Ability: " + selAbility;
+
     }
 
 
@@ -191,15 +207,14 @@ public class TeamMateStateManager : MonoBehaviour
             alive = false;
             ChangeState(0);     
         }
-        Debug.Log($"{allerted}");
-        //if (enemyList.Count > 0) 
-        //{
-        //    allerted = true;
-        //}
-        //else 
-        //{
-        //    allerted = false;
-        //}
+
+        healthSlider.value = health;
+        StateText.text = "State: " +currStateText;
+
+
+
+
+
 
 
         currState.OnUpdate(this);   

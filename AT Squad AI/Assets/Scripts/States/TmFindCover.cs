@@ -24,33 +24,45 @@ public class TmFindCover : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
-        Debug.Log($"{teamMate.SelAbility} is trying to find cover");
+
+        teamMate.currStateText = "FIND COVER";
+       var list = CheckForEnemiesAround(teamMate);
+
+        if (list.Count > 0) { teamMate.Allerted = true; }
+
+
+
+
+        Debug.Log($"{teamMate.memberName} is trying to find cover");
         //chekc distance in respect to the finish line
         if (teamMate.Allerted) // if in fight look for a 
         {
             bool found = false;
 
-            Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 10);
+            Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 15);
             foreach (var hitCollider in hitColliders)
             {
+                //Debug.Log($"did this even call {hitCollider.transform.tag}");
                 if (hitCollider.transform.tag == "BasicCoverPos")
                 {
-                    Debug.Log($"found something in the tag");
+                    //Debug.Log($"found something in the tag");
 
                     var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
-                    int idx = simpCoverScript.findIndexCoverCubes(hitCollider.gameObject);
+
+                    int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
 
 
                     if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                     {
-
-                        Debug.Log($"this si a free spot");
-                        if (RayCasterPlayer(hitCollider.transform.position, teamMate.PlayerObj.transform.position))
+                        //Debug.Log($"this si a free spot");
+                        if (!RayCasterEnemyList(hitCollider.transform.position,list))
                         {
 
-                            teamMate.currCoverTransform = hitCollider.transform.position;
-
+                            teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+                            Debug.Log($"does it get here");
+                            teamMate.currCoverTransform = hitCollider.transform;
+                            simpCoverScript.listOfAvailability[idx] = true;
                             var name = hitCollider.transform.name;
                             if (name.Contains("Positive"))   // this two are the side ones   
                             {
@@ -64,29 +76,28 @@ public class TmFindCover : TeamMateBaseState
                             {
                                 teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
                             }
-                            simpCoverScript.listOfAvailability[idx] = true;
+
                             found = true;
                             break;
                         }
                     }
                     else
                     {
-                        Debug.Log($"this spot is not free");
                     }
                 }
             }
 
             if (found)
             {
-                Debug.Log($"we found an avaialble spot to cover, it is at {teamMate.currCoverTransform}");
-                
-                    teamMate.ChangeState(2);
-                
+
+                teamMate.ChangeState(2);
+
+
             }
             else
             {
-                Debug.Log($"Could not find a point to take cover at");
-                teamMate.ChangeState(6);
+                teamMate.ChangeState(3);
+                Debug.Log($"sitting on my hands");
             }
         }
         else
@@ -104,9 +115,9 @@ public class TmFindCover : TeamMateBaseState
 
                     var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
+
                     int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
-                    Debug.Log($"{idx}");
-                    Debug.Log($"{hitCollider.name}");
+                  
 
                     if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                     {
@@ -114,7 +125,9 @@ public class TmFindCover : TeamMateBaseState
                         if (RayCasterPlayer(hitCollider.transform.position, teamMate.PlayerObj.transform.position))
                         {
 
-                            teamMate.currCoverTransform = hitCollider.transform.position;
+                            teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+
+                            teamMate.currCoverTransform = hitCollider.transform;
                             simpCoverScript.listOfAvailability[idx] = true;
                             var name = hitCollider.transform.name;
                             if (name.Contains("Positive"))   // this two are the side ones   
@@ -136,14 +149,12 @@ public class TmFindCover : TeamMateBaseState
                     }
                     else 
                     {
-                        Debug.Log($"this spot is not free");
                     }
                 }
             }
 
             if (found) 
             {
-                Debug.Log($"we found an avaialble spot to cover, it is at {teamMate.currCoverTransform}");
                
                    teamMate.ChangeState(2);
                 
@@ -151,7 +162,6 @@ public class TmFindCover : TeamMateBaseState
             }
             else 
             {
-                Debug.Log($"Could not find a point to take cover at");
                 teamMate.ChangeState(3);
             }
         }

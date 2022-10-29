@@ -8,20 +8,12 @@ public class TeamMateUISlot : MonoBehaviour
 {
 
     public TMP_Text nameText;
+    public TMP_Text stateText;
     public TMP_Text abilityText;
 
     public Slider healthSlider;
 
     public RawImage imageBack;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 }

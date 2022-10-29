@@ -8,19 +8,20 @@ public class TmPatrollingAroundPoint : TeamMateBaseState
      // given a point, choose a random position around that point dont fuck with buildings
     public override void EnterState(TeamMateStateManager teamMate)
     {
+        teamMate.currStateText = "PATROLLING AROUND P";
         Debug.Log(teamMate.transform.name + " is in the patrol around state ");
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
-        GoToPoint(teamMate.currCoverTransform,teamMate);
+        GoToPoint(teamMate.currCoverTransformVector3,teamMate);
 
 
 
         if (ReachedDestination(teamMate)) 
         {
             Vector3 newPos = new Vector3(teamMate.transform.position.x + Random.Range(-7,7) , teamMate.transform.position.y, teamMate.transform.position.z + Random.Range(-7, 7));
-            teamMate.currCoverTransform = newPos;
+            teamMate.currCoverTransformVector3 = newPos;
         
         }
     }

@@ -8,6 +8,7 @@ public class TmDead : TeamMateBaseState
     public override void EnterState(TeamMateStateManager teamMate)
     {
         Debug.Log($"{teamMate.SelAbility} has died....");
+        teamMate.currStateText = "DEAD";
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)

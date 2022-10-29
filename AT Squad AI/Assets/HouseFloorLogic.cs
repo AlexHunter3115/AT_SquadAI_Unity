@@ -8,6 +8,8 @@ public class HouseFloorLogic : MonoBehaviour
     public List<Transform> coverPos;
     public List<GameObject> coverPosCubes;
 
+    public List<GameObject> mainParentCubes;
+
     public bool showCubes;
 
 
@@ -66,14 +68,27 @@ public class HouseFloorLogic : MonoBehaviour
     void Update()
     {
 
-        if (showCubes)
+        for (int i = 0; i < mainParentCubes.Count; i++)
         {
-            //coverCubes.SetActive(true);
+            mainParentCubes[i].SetActive(showCubes);
         }
-        else
-        {
-            //coverCubes.SetActive(false);
-        }
+
+
+
+        //if (showCubes)
+        //{
+        //    for (int i = 0; i < mainParentCubes.Count; i++)
+        //    {
+        //        mainParentCubes[i].SetActive(true);
+        //    }
+        //}
+        //else
+        //{
+        //    for (int i = 0; i < mainParentCubes.Count; i++)
+        //    {
+        //        mainParentCubes[i].SetActive(false);
+        //    }
+        //}
 
         showCubes = false;
 

@@ -2928,6 +2928,10 @@ MonoBehaviour:
   - {fileID: 2191157143178207925}
   coverPos: []
   coverPosCubes: []
+  mainParentCubes:
+  - {fileID: 7073158332462126566}
+  - {fileID: 8988954338446301551}
+  - {fileID: 5588612310487491276}
   showCubes: 0
 --- !u!65 &2014984244
 BoxCollider:

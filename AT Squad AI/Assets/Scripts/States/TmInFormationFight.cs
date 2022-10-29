@@ -9,6 +9,7 @@ public class TmInFormationFight : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
+        teamMate.currStateText = "FORMATION F";
         Debug.Log(teamMate.transform.name + " is in the formation fight state ");
     }
 
@@ -37,3 +38,4 @@ public class TmInFormationFight : TeamMateBaseState
 //new TmInFormationIdle(),
 //new TmPatrollingAroundPoint(),
 //new TmUseAbility()
+//new forcegotocover()

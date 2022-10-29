@@ -9,6 +9,7 @@ public class TmIdleWaiting : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
+        teamMate.currStateText = "WAITING";
         Debug.Log(teamMate.transform.name + " is in the waiting state ");
     }
 

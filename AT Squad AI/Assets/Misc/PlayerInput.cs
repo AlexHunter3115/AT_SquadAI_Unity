@@ -56,21 +56,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""SelectTeamMate"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""f1fbc362-ba36-4252-a5a7-e3b407c5a041"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DeselectTeam"",
-                    ""type"": ""Button"",
-                    ""id"": ""932022df-13d1-485d-a330-fd159ff346ac"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""TopViewToggle"",
@@ -89,6 +80,123 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SelectAllTeamMates"",
+                    ""type"": ""Button"",
+                    ""id"": ""d92f73ab-c390-4a8c-b5ea-f123e90b69c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DeselectAllTeamMates"",
+                    ""type"": ""Button"",
+                    ""id"": ""3fe1ea29-de0f-45f8-9456-79851b401152"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShowOptions"",
+                    ""type"": ""Value"",
+                    ""id"": ""ad6376d2-5390-451c-bf52-ff95d64d2ebc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShowCoverPositions"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2029be1-7e73-460d-8c06-7d14eec7f7f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MultiSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""b6c4a167-bd29-4fa2-9c68-d04bf73b38d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FindCover"",
+                    ""type"": ""Button"",
+                    ""id"": ""5047e66f-f4ac-4b64-b5e3-b461522fde5e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ForceGoToCover"",
+                    ""type"": ""Button"",
+                    ""id"": ""d63234c0-dffb-4182-86a1-6e5a8c253fbd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HoldFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9490cc4-4f4f-4157-a4c6-772667f358f8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2e8e287-7a23-4ad9-a38d-4f72de679550"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""IntoFormation"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6787533-85b6-4511-a054-d1448a845078"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DefendePoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""f63edfc8-e675-4261-bf14-5214e27b384a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PatrolPoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ec3ad4c-c306-4970-abe2-8370046027e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AdvanceToPoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f09e5d2-0a9a-4a5f-acf1-bc0c3d7f8f88"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -171,28 +279,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ae7c1a90-2245-42af-aeef-212db2949674"",
-                    ""path"": ""<Keyboard>/t"",
-                    ""interactions"": ""Tap"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectTeamMate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f77c7dac-4489-42e0-8892-c67d8ad8be7c"",
-                    ""path"": ""<Keyboard>/t"",
-                    ""interactions"": ""MultiTap"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DeselectTeam"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c39e6cef-472d-4bb9-9cdc-ee7928734817"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
@@ -234,6 +320,204 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""moveFloorsView"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""3e3bdd4e-7d98-4997-84c5-bda064a24ac8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectTeamMate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""75cb8317-e639-4f01-9673-8e53aa0ecadb"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectTeamMate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f8f61276-d141-40e9-9823-f81142768e69"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectTeamMate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""729019db-acf9-4403-94ea-1a9ebf36007e"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAllTeamMates"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0311a10d-ec43-4ca4-b727-2a8eeb5ef946"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeselectAllTeamMates"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0fe0ba09-049d-4f5f-b42e-0a5da912ec8f"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowCoverPositions"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5266a915-7425-4afc-92d7-4536e1819d22"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Press,Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowOptions"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Shift+mouse1"",
+                    ""id"": ""0bbb6e02-0508-4b84-bfd1-1fac0d013db2"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MultiSelect"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""e0083fab-be5e-4f65-bc97-b784aea81392"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MultiSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""cd1a2ffa-2270-4910-a6dd-fe0e55d85302"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MultiSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d59847ca-f9a1-401e-8812-24360dcaa656"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FindCover"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6fa71670-2f76-46bc-8136-e863c81a5840"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HoldFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""020f5af1-8b64-474d-a97e-3fcb29fad804"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e00facf-62c6-40f4-992f-0e9e6f56b66d"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""IntoFormation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4725a827-17ed-47d8-8617-0067bdc82321"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DefendePoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aab58cb2-a5e4-4cc8-9389-bd0f5b43f5ff"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PatrolPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02e8c004-e472-42af-9171-e42002a418a0"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AdvanceToPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de8b3ffc-7d5c-4756-a778-57f4709a1ad7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ForceGoToCover"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -246,9 +530,21 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_FormationChange = m_Player.FindAction("FormationChange", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_SelectTeamMate = m_Player.FindAction("SelectTeamMate", throwIfNotFound: true);
-        m_Player_DeselectTeam = m_Player.FindAction("DeselectTeam", throwIfNotFound: true);
         m_Player_TopViewToggle = m_Player.FindAction("TopViewToggle", throwIfNotFound: true);
         m_Player_moveFloorsView = m_Player.FindAction("moveFloorsView", throwIfNotFound: true);
+        m_Player_SelectAllTeamMates = m_Player.FindAction("SelectAllTeamMates", throwIfNotFound: true);
+        m_Player_DeselectAllTeamMates = m_Player.FindAction("DeselectAllTeamMates", throwIfNotFound: true);
+        m_Player_ShowOptions = m_Player.FindAction("ShowOptions", throwIfNotFound: true);
+        m_Player_ShowCoverPositions = m_Player.FindAction("ShowCoverPositions", throwIfNotFound: true);
+        m_Player_MultiSelect = m_Player.FindAction("MultiSelect", throwIfNotFound: true);
+        m_Player_FindCover = m_Player.FindAction("FindCover", throwIfNotFound: true);
+        m_Player_ForceGoToCover = m_Player.FindAction("ForceGoToCover", throwIfNotFound: true);
+        m_Player_HoldFire = m_Player.FindAction("HoldFire", throwIfNotFound: true);
+        m_Player_UseAbility = m_Player.FindAction("UseAbility", throwIfNotFound: true);
+        m_Player_IntoFormation = m_Player.FindAction("IntoFormation", throwIfNotFound: true);
+        m_Player_DefendePoint = m_Player.FindAction("DefendePoint", throwIfNotFound: true);
+        m_Player_PatrolPoint = m_Player.FindAction("PatrolPoint", throwIfNotFound: true);
+        m_Player_AdvanceToPoint = m_Player.FindAction("AdvanceToPoint", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,9 +608,21 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_FormationChange;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_SelectTeamMate;
-    private readonly InputAction m_Player_DeselectTeam;
     private readonly InputAction m_Player_TopViewToggle;
     private readonly InputAction m_Player_moveFloorsView;
+    private readonly InputAction m_Player_SelectAllTeamMates;
+    private readonly InputAction m_Player_DeselectAllTeamMates;
+    private readonly InputAction m_Player_ShowOptions;
+    private readonly InputAction m_Player_ShowCoverPositions;
+    private readonly InputAction m_Player_MultiSelect;
+    private readonly InputAction m_Player_FindCover;
+    private readonly InputAction m_Player_ForceGoToCover;
+    private readonly InputAction m_Player_HoldFire;
+    private readonly InputAction m_Player_UseAbility;
+    private readonly InputAction m_Player_IntoFormation;
+    private readonly InputAction m_Player_DefendePoint;
+    private readonly InputAction m_Player_PatrolPoint;
+    private readonly InputAction m_Player_AdvanceToPoint;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -323,9 +631,21 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @FormationChange => m_Wrapper.m_Player_FormationChange;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @SelectTeamMate => m_Wrapper.m_Player_SelectTeamMate;
-        public InputAction @DeselectTeam => m_Wrapper.m_Player_DeselectTeam;
         public InputAction @TopViewToggle => m_Wrapper.m_Player_TopViewToggle;
         public InputAction @moveFloorsView => m_Wrapper.m_Player_moveFloorsView;
+        public InputAction @SelectAllTeamMates => m_Wrapper.m_Player_SelectAllTeamMates;
+        public InputAction @DeselectAllTeamMates => m_Wrapper.m_Player_DeselectAllTeamMates;
+        public InputAction @ShowOptions => m_Wrapper.m_Player_ShowOptions;
+        public InputAction @ShowCoverPositions => m_Wrapper.m_Player_ShowCoverPositions;
+        public InputAction @MultiSelect => m_Wrapper.m_Player_MultiSelect;
+        public InputAction @FindCover => m_Wrapper.m_Player_FindCover;
+        public InputAction @ForceGoToCover => m_Wrapper.m_Player_ForceGoToCover;
+        public InputAction @HoldFire => m_Wrapper.m_Player_HoldFire;
+        public InputAction @UseAbility => m_Wrapper.m_Player_UseAbility;
+        public InputAction @IntoFormation => m_Wrapper.m_Player_IntoFormation;
+        public InputAction @DefendePoint => m_Wrapper.m_Player_DefendePoint;
+        public InputAction @PatrolPoint => m_Wrapper.m_Player_PatrolPoint;
+        public InputAction @AdvanceToPoint => m_Wrapper.m_Player_AdvanceToPoint;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -347,15 +667,51 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @SelectTeamMate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectTeamMate;
                 @SelectTeamMate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectTeamMate;
                 @SelectTeamMate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectTeamMate;
-                @DeselectTeam.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectTeam;
-                @DeselectTeam.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectTeam;
-                @DeselectTeam.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectTeam;
                 @TopViewToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTopViewToggle;
                 @TopViewToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTopViewToggle;
                 @TopViewToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTopViewToggle;
                 @moveFloorsView.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveFloorsView;
                 @moveFloorsView.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveFloorsView;
                 @moveFloorsView.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveFloorsView;
+                @SelectAllTeamMates.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectAllTeamMates;
+                @SelectAllTeamMates.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectAllTeamMates;
+                @SelectAllTeamMates.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectAllTeamMates;
+                @DeselectAllTeamMates.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectAllTeamMates;
+                @DeselectAllTeamMates.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectAllTeamMates;
+                @DeselectAllTeamMates.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDeselectAllTeamMates;
+                @ShowOptions.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowOptions;
+                @ShowOptions.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowOptions;
+                @ShowOptions.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowOptions;
+                @ShowCoverPositions.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowCoverPositions;
+                @ShowCoverPositions.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowCoverPositions;
+                @ShowCoverPositions.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowCoverPositions;
+                @MultiSelect.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMultiSelect;
+                @MultiSelect.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMultiSelect;
+                @MultiSelect.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMultiSelect;
+                @FindCover.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFindCover;
+                @FindCover.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFindCover;
+                @FindCover.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFindCover;
+                @ForceGoToCover.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnForceGoToCover;
+                @ForceGoToCover.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnForceGoToCover;
+                @ForceGoToCover.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnForceGoToCover;
+                @HoldFire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHoldFire;
+                @HoldFire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHoldFire;
+                @HoldFire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHoldFire;
+                @UseAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseAbility;
+                @UseAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseAbility;
+                @UseAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseAbility;
+                @IntoFormation.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnIntoFormation;
+                @IntoFormation.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnIntoFormation;
+                @IntoFormation.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnIntoFormation;
+                @DefendePoint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefendePoint;
+                @DefendePoint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefendePoint;
+                @DefendePoint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefendePoint;
+                @PatrolPoint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPatrolPoint;
+                @PatrolPoint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPatrolPoint;
+                @PatrolPoint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPatrolPoint;
+                @AdvanceToPoint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceToPoint;
+                @AdvanceToPoint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceToPoint;
+                @AdvanceToPoint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceToPoint;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -372,15 +728,51 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @SelectTeamMate.started += instance.OnSelectTeamMate;
                 @SelectTeamMate.performed += instance.OnSelectTeamMate;
                 @SelectTeamMate.canceled += instance.OnSelectTeamMate;
-                @DeselectTeam.started += instance.OnDeselectTeam;
-                @DeselectTeam.performed += instance.OnDeselectTeam;
-                @DeselectTeam.canceled += instance.OnDeselectTeam;
                 @TopViewToggle.started += instance.OnTopViewToggle;
                 @TopViewToggle.performed += instance.OnTopViewToggle;
                 @TopViewToggle.canceled += instance.OnTopViewToggle;
                 @moveFloorsView.started += instance.OnMoveFloorsView;
                 @moveFloorsView.performed += instance.OnMoveFloorsView;
                 @moveFloorsView.canceled += instance.OnMoveFloorsView;
+                @SelectAllTeamMates.started += instance.OnSelectAllTeamMates;
+                @SelectAllTeamMates.performed += instance.OnSelectAllTeamMates;
+                @SelectAllTeamMates.canceled += instance.OnSelectAllTeamMates;
+                @DeselectAllTeamMates.started += instance.OnDeselectAllTeamMates;
+                @DeselectAllTeamMates.performed += instance.OnDeselectAllTeamMates;
+                @DeselectAllTeamMates.canceled += instance.OnDeselectAllTeamMates;
+                @ShowOptions.started += instance.OnShowOptions;
+                @ShowOptions.performed += instance.OnShowOptions;
+                @ShowOptions.canceled += instance.OnShowOptions;
+                @ShowCoverPositions.started += instance.OnShowCoverPositions;
+                @ShowCoverPositions.performed += instance.OnShowCoverPositions;
+                @ShowCoverPositions.canceled += instance.OnShowCoverPositions;
+                @MultiSelect.started += instance.OnMultiSelect;
+                @MultiSelect.performed += instance.OnMultiSelect;
+                @MultiSelect.canceled += instance.OnMultiSelect;
+                @FindCover.started += instance.OnFindCover;
+                @FindCover.performed += instance.OnFindCover;
+                @FindCover.canceled += instance.OnFindCover;
+                @ForceGoToCover.started += instance.OnForceGoToCover;
+                @ForceGoToCover.performed += instance.OnForceGoToCover;
+                @ForceGoToCover.canceled += instance.OnForceGoToCover;
+                @HoldFire.started += instance.OnHoldFire;
+                @HoldFire.performed += instance.OnHoldFire;
+                @HoldFire.canceled += instance.OnHoldFire;
+                @UseAbility.started += instance.OnUseAbility;
+                @UseAbility.performed += instance.OnUseAbility;
+                @UseAbility.canceled += instance.OnUseAbility;
+                @IntoFormation.started += instance.OnIntoFormation;
+                @IntoFormation.performed += instance.OnIntoFormation;
+                @IntoFormation.canceled += instance.OnIntoFormation;
+                @DefendePoint.started += instance.OnDefendePoint;
+                @DefendePoint.performed += instance.OnDefendePoint;
+                @DefendePoint.canceled += instance.OnDefendePoint;
+                @PatrolPoint.started += instance.OnPatrolPoint;
+                @PatrolPoint.performed += instance.OnPatrolPoint;
+                @PatrolPoint.canceled += instance.OnPatrolPoint;
+                @AdvanceToPoint.started += instance.OnAdvanceToPoint;
+                @AdvanceToPoint.performed += instance.OnAdvanceToPoint;
+                @AdvanceToPoint.canceled += instance.OnAdvanceToPoint;
             }
         }
     }
@@ -391,8 +783,20 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnFormationChange(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnSelectTeamMate(InputAction.CallbackContext context);
-        void OnDeselectTeam(InputAction.CallbackContext context);
         void OnTopViewToggle(InputAction.CallbackContext context);
         void OnMoveFloorsView(InputAction.CallbackContext context);
+        void OnSelectAllTeamMates(InputAction.CallbackContext context);
+        void OnDeselectAllTeamMates(InputAction.CallbackContext context);
+        void OnShowOptions(InputAction.CallbackContext context);
+        void OnShowCoverPositions(InputAction.CallbackContext context);
+        void OnMultiSelect(InputAction.CallbackContext context);
+        void OnFindCover(InputAction.CallbackContext context);
+        void OnForceGoToCover(InputAction.CallbackContext context);
+        void OnHoldFire(InputAction.CallbackContext context);
+        void OnUseAbility(InputAction.CallbackContext context);
+        void OnIntoFormation(InputAction.CallbackContext context);
+        void OnDefendePoint(InputAction.CallbackContext context);
+        void OnPatrolPoint(InputAction.CallbackContext context);
+        void OnAdvanceToPoint(InputAction.CallbackContext context);
     }
 }
