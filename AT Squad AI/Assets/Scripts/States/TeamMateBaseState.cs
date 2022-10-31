@@ -55,20 +55,12 @@ public abstract class TeamMateBaseState
             {
                 if (!navMesh.hasPath || navMesh.velocity.sqrMagnitude == 0f)
                 {
-                    Debug.Log($"this should have returned true");
+                    //Debug.Log($"this should have returned true");
                     return true;
                 }
             }
         }
 
-        //or this 
-
-        //if (teamMate.transform.GetComponent<NavMeshAgent>().pathStatus != NavMeshPathStatus.PathComplete)
-        //{
-        //    Debug.Log($" returning true");
-        //    return true;
-        //}
-        //Debug.Log($"returning false");
         return false;
 
     }
@@ -91,28 +83,28 @@ public abstract class TeamMateBaseState
     public bool RayCasterEnemyList(Vector3 coverPos, List<GameObject> enemyPos)
     {
         RaycastHit hit;
-        Debug.Log($"calledldlldld this is how many enemies there are {enemyPos.Count}");
+        //Debug.Log($"calledldlldld this is how many enemies there are {enemyPos.Count}");
 
         foreach (var enemy in enemyPos)
         {
-            Debug.Log($"am i skipping");
+            //Debug.Log($"am i skipping");
 
             if (Physics.Linecast(coverPos, enemy.transform.position,out hit, SquadManager.instance.teamMates[0].GetComponent<TeamMateStateManager>().ignoreCoverLayermask))
             {
                 if (hit.transform.tag == "Enemy")
                 {
 
-                    Debug.Log($"koapdsajdijwijeiqjei");
+                    //Debug.Log($"koapdsajdijwijeiqjei");
                     return true;
                 }
                 else
                 {
-                    Debug.Log($"i hit this {hit.transform.name}");
+                    //Debug.Log($"i hit this {hit.transform.name}");
                 }
             }
             else 
             {
-                Debug.Log($"i really shouldnt be here");
+                //Debug.Log($"i really shouldnt be here");
                 return true;
             }
 

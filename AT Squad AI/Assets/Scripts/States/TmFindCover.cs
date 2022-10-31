@@ -46,44 +46,46 @@ public class TmFindCover : TeamMateBaseState
                 if (hitCollider.transform.tag == "BasicCoverPos")
                 {
                     //Debug.Log($"found something in the tag");
-
+                    
                     var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
-
-                    int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
-
-
-                    if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
+                    if (!simpCoverScript.SpotsTaken()) 
                     {
-                        //Debug.Log($"this si a free spot");
-                        if (!RayCasterEnemyList(hitCollider.transform.position,list))
+                        int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
+
+
+                        if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                         {
+                            //Debug.Log($"this si a free spot");
+                            if (!RayCasterEnemyList(hitCollider.transform.position, list))
+                            {
 
-                            teamMate.currCoverTransformVector3 = hitCollider.transform.position;
-                            Debug.Log($"does it get here");
-                            teamMate.currCoverTransform = hitCollider.transform;
-                            simpCoverScript.listOfAvailability[idx] = true;
-                            var name = hitCollider.transform.name;
-                            if (name.Contains("Positive"))   // this two are the side ones   
-                            {
-                                teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
-                            }
-                            else if (name.Contains("Minus"))
-                            {
-                                teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
-                            }
-                            else
-                            {
-                                teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
-                            }
+                                teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+                                teamMate.currCoverTransform = hitCollider.transform;
+                                simpCoverScript.listOfAvailability[idx] = true;
+                                var name = hitCollider.transform.name;
+                                if (name.Contains("Positive"))   // this two are the side ones   
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                }
+                                else if (name.Contains("Minus"))
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                }
+                                else
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                }
 
-                            found = true;
-                            break;
+                                found = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
                         }
                     }
-                    else
-                    {
-                    }
+               
                 }
             }
 
@@ -96,8 +98,74 @@ public class TmFindCover : TeamMateBaseState
             }
             else
             {
-                teamMate.ChangeState(3);
-                Debug.Log($"sitting on my hands");
+                found = false;
+
+                foreach (var hitCollider in hitColliders)
+                {
+                    //Debug.Log($"did this even call {hitCollider.transform.tag}");
+                    if (hitCollider.transform.tag == "BasicCoverPos")
+                    {
+                        //Debug.Log($"found something in the tag");
+
+                        var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
+
+                        
+                            int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
+
+
+                            if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
+                            {
+                                //Debug.Log($"this si a free spot");
+                                if (!RayCasterEnemyList(hitCollider.transform.position, list))
+                                {
+
+                                    teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+                                    teamMate.currCoverTransform = hitCollider.transform;
+                                    simpCoverScript.listOfAvailability[idx] = true;
+                                    var name = hitCollider.transform.name;
+                                    if (name.Contains("Positive"))   // this two are the side ones   
+                                    {
+                                        teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                    }
+                                    else if (name.Contains("Minus"))
+                                    {
+                                        teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                    }
+                                    else
+                                    {
+                                        teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                    }
+
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                            }
+                        
+
+                    }
+                }
+
+
+
+
+                if (found)
+                {
+
+                    teamMate.ChangeState(2);
+
+
+                }
+                else
+                {
+
+
+                    teamMate.ChangeState(3);
+                    Debug.Log($"sitting on my hands");
+                }
+
             }
         }
         else
@@ -105,67 +173,111 @@ public class TmFindCover : TeamMateBaseState
 
             bool found = false;
 
-            Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 10);
+            Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 15);
             foreach (var hitCollider in hitColliders)
             {
-                Debug.Log($"did this even call {hitCollider.transform.tag}");
                 if (hitCollider.transform.tag == "BasicCoverPos")
                 {
-                    Debug.Log($"found something in the tag");
-
                     var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
-
-                    int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
-                  
-
-                    if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
+                    if (!simpCoverScript.SpotsTaken())
                     {
-                        Debug.Log($"this si a free spot");
-                        if (RayCasterPlayer(hitCollider.transform.position, teamMate.PlayerObj.transform.position))
+                        int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
+
+                        if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                         {
-
-                            teamMate.currCoverTransformVector3 = hitCollider.transform.position;
-
-                            teamMate.currCoverTransform = hitCollider.transform;
-                            simpCoverScript.listOfAvailability[idx] = true;
-                            var name = hitCollider.transform.name;
-                            if (name.Contains("Positive"))   // this two are the side ones   
+                            if (RayCasterPlayer(hitCollider.transform.position, teamMate.PlayerObj.transform.position))
                             {
-                                teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
-                            }
-                            else if (name.Contains("Minus"))
-                            {
-                                teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
-                            }
-                            else
-                            {
-                                teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
-                            }
 
-                            found = true;
-                            break;
+                                teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+
+                                teamMate.currCoverTransform = hitCollider.transform;
+                                simpCoverScript.listOfAvailability[idx] = true;
+                                var name = hitCollider.transform.name;
+                                if (name.Contains("Positive"))   // this two are the side ones   
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                }
+                                else if (name.Contains("Minus"))
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                }
+                                else
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                }
+
+                                found = true;
+                                break;
+                            }
                         }
-                    }
-                    else 
-                    {
+                        else
+                        {
+                        }
                     }
                 }
             }
 
             if (found) 
             {
-               
                    teamMate.ChangeState(2);
-                
-              
             }
             else 
             {
-                teamMate.ChangeState(3);
+
+                found = false;
+
+                foreach (var hitCollider in hitColliders)
+                {
+                    if (hitCollider.transform.tag == "BasicCoverPos")
+                    {
+
+                        var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
+
+                        int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
+
+                        if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
+                        {
+                            //Debug.Log($"this si a free spot");
+                            if (RayCasterPlayer(hitCollider.transform.position, teamMate.PlayerObj.transform.position))
+                            {
+                                teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+
+                                teamMate.currCoverTransform = hitCollider.transform;
+                                simpCoverScript.listOfAvailability[idx] = true;
+                                var name = hitCollider.transform.name;
+                                if (name.Contains("Positive"))   // this two are the side ones   
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                }
+                                else if (name.Contains("Minus"))
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                }
+                                else
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                }
+
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+
+                if (found) 
+                {
+                    teamMate.ChangeState(2);
+                }
+                else 
+                {
+                    teamMate.ChangeState(3);
+                }
             }
         }
-
     }
 
 

@@ -86,4 +86,23 @@ public class SimpleObjectCover : MonoBehaviour
         return idx;
 
     }
+
+
+
+
+
+
+    public bool SpotsTaken() 
+    {
+        for (int i = 0; i < listOfAvailability.Count; i++)
+        {
+            if (listOfAvailability[i]) 
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
 }
