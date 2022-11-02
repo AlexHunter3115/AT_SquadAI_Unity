@@ -16,11 +16,26 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
     private float notShowingTimer;
 
     List<GameObject> list = new List<GameObject>();
+    public override void OnExit(TeamMateStateManager teamMate)
+    {
+        if (teamMate.changingToState == 11)
+        {
 
+        }
+        else
+        {
+            var simpCoverScript = teamMate.currCoverTransform.transform.GetComponentInParent<SimpleObjectCover>();
+            int idx = simpCoverScript.findIndexCoverTransforms(teamMate.currCoverTransform.gameObject);
+            simpCoverScript.listOfAvailability[idx] = false;
+        }
+    }
     //literally does nothing, they just spawned they just look around, still have some enemy check but overall do nothing
     // also we need to have propriaterys timers here one for the cooldown and one for the reantry
     public override void EnterState(TeamMateStateManager teamMate)
     {
+
+
+        UIManager.instance.SetIcon(2, teamMate.memberName);
         showing = false;
         Debug.Log(teamMate.transform.name + " is in the lateral activate state ");
         teamMate.currStateText = "BCLA";
@@ -67,32 +82,22 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
         if (showing)
         {
 
-            teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.blue;
-
-            var worldPos = teamMate.currCoverTransform.position;
-
-            var mainParent = teamMate.currCoverTransform.root;
-            var angleParent = mainParent.transform.rotation.y;
-
-            float worldPos_x = Mathf.Sin(angleParent) * 0.5f;
-            float worldPos_z = Mathf.Cos(angleParent) * 0.5f;
-
+            var worldPos = teamMate.currCoverTransform.localPosition;
 
             if (teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
             {
 
-                var newWorldPos = new Vector3(worldPos.x - worldPos_x, worldPos.y, worldPos.z - worldPos_z);
+                var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
+                newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
                 GoToPoint(newWorldPos, teamMate);
 
             }
             else if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE)
             {
-                var newWorldPos = new Vector3(worldPos.x + worldPos_x * 1.2f, worldPos.y, worldPos.z + worldPos_z * 1.2f);
+                var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z - 0.35f);
+                newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
                 GoToPoint(newWorldPos, teamMate);
             }
-
-
-
 
 
             list = CheckForEnemiesAround(teamMate);
@@ -104,18 +109,15 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
         else
         {
 
-            teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+            //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.red;
 
-
+            // this happens anyway
             if (teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
             {
                 GoToPoint(teamMate.currCoverTransformVector3, teamMate);
-
             }
             else if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE)
             {
-
-
                 GoToPoint(teamMate.currCoverTransformVector3, teamMate);
             }
 

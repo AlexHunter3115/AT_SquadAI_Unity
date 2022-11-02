@@ -9,6 +9,13 @@ public class TmIdleWaiting : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
+
+
+        teamMate.transform.GetChild(3).gameObject.SetActive(true);
+        teamMate.transform.GetChild(2).gameObject.SetActive(false) ;
+
+
+        UIManager.instance.SetIcon(0, teamMate.memberName);
         teamMate.currStateText = "WAITING";
         Debug.Log(teamMate.transform.name + " is in the waiting state ");
     }
@@ -19,7 +26,13 @@ public class TmIdleWaiting : TeamMateBaseState
     }
 
 
-   
+    public override void OnExit(TeamMateStateManager teamMate)
+    {
+
+        teamMate.transform.GetChild(3).gameObject.SetActive(false);
+
+        teamMate.transform.GetChild(2).gameObject.SetActive(true);
+    }
 
 
 

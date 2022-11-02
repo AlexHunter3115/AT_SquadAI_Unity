@@ -36,7 +36,7 @@ public class PlayerScript : MonoBehaviour
     public LayerMask houseMask;
     public LayerMask Hittable;
 
-    public int selectedTeamMate;
+    private int selectedTeamMate = -1;
     public bool commandingTroops;
     public GameObject formationMainOBJ;
 
@@ -49,8 +49,6 @@ public class PlayerScript : MonoBehaviour
     public float fireRate = 0.2f;
     public float lastFire = 0;
     public float inaccuracy = 0.1f;
-
-
 
 
 
@@ -84,13 +82,14 @@ public class PlayerScript : MonoBehaviour
         playerActions.MultiSelect.performed += ctx => MultiSelectTeamMate();
 
         playerActions.ForceGoToCover.performed += ctx => ForceCoverTeamMate();
+        playerActions.ForceGoToCover.performed += ctx => OneTeamSelectTeamMate();
 
         playerActions.FindCover.performed += ctx => FindCoverTeamMates();
         playerActions.HoldFire.performed += ctx => HoldFireTeamMates();
         playerActions.UseAbility.performed += ctx => UseAbilityTeamMates();
         playerActions.IntoFormation.performed += ctx => IntoFormationTeamMates();
         playerActions.DefendePoint.performed += ctx => DefendPointTeamMates();
-        playerActions.PatrolPoint.performed += ctx => PatrolAroundPoint();
+        playerActions.PatrolPoint.performed += ctx => PatrolPointTeamMates();
         playerActions.AdvanceToPoint.performed += ctx => AdvanceToPointTeamMates();
 
 
@@ -115,23 +114,18 @@ public class PlayerScript : MonoBehaviour
     {
         isGrouded = controller.isGrounded;
         if (controlPlayer)
-        ProcessLook(playerActions.Look.ReadValue<Vector2>());
+            ProcessLook(playerActions.Look.ReadValue<Vector2>());
 
         if (commandingTroops)
             SeeCoverPositions();
 
         //move out of here
-        PatrolAroundPoint();
         // add firerate 
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && Input.GetKey(KeyCode.LeftShift)) 
-        {
-            //MultiSelectTeamMate();
-        }
+
 
         if (Input.GetKey(KeyCode.Mouse0) && !commandingTroops)
         {
-
             ShootingRayCastManager();
         }
 
@@ -141,7 +135,7 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    public void ShootingRayCastManager() 
+    public void ShootingRayCastManager()
     {
 
 
@@ -158,8 +152,19 @@ public class PlayerScript : MonoBehaviour
             RaycastHit outHit;
             if (Physics.Raycast(camFP.transform.position, newDir, out outHit, Mathf.Infinity, Hittable))
             {
+
+                if (outHit.transform.tag == "TeamMate")
+                {
+                    outHit.transform.GetComponent<TeamMateStateManager>().TakeDamage(5);
+                }
+                else if (outHit.transform.tag == "Enemy")
+                {
+
+                }
+
                 GameObject newRef = Instantiate(bulletPrefab);
                 newRef.transform.position = outHit.point;
+                newRef.transform.parent = outHit.transform;
             }
         }
     }
@@ -180,26 +185,30 @@ public class PlayerScript : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outHit, Mathf.Infinity, ~basicCover) || Physics.Raycast(ray, out outHit, Mathf.Infinity, ~basicCover))
         {
             GameObject newRef = outHit.transform.gameObject;
-            Debug.Log($"cvcbvbcvcbv");
             if (newRef.transform.GetComponent<SimpleObjectCover>())
             {
                 newRef.transform.GetComponent<SimpleObjectCover>().showCubes = true;
 
                 RaycastHit outhit;
 
-                Debug.Log($"ewrwerwerw");
-               
-                    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outhit, Mathf.Infinity) || Physics.Raycast(ray, out outhit))
-                    {
-                        if (outhit.transform.tag == "BasicCover")
-                        {
-                            Debug.Log($"cvbvcbcvb");
-                            int idx = newRef.transform.GetComponent<SimpleObjectCover>().findIndexCoverCubes(outhit.transform.gameObject);
 
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outhit, Mathf.Infinity) || Physics.Raycast(ray, out outhit))
+                {
+                    if (outhit.transform.tag == "BasicCover")
+                    {
+                        int idx = newRef.transform.GetComponent<SimpleObjectCover>().findIndexCoverCubes(outhit.transform.gameObject);
+
+
+                        if (!newRef.transform.GetComponent<SimpleObjectCover>().listOfAvailability[idx])   // if the place is not taken
+                        {
+                            newRef.transform.GetComponent<SimpleObjectCover>().listOfAvailability[idx] = true;
                             return newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx];
                         }
+
+
                     }
-                
+                }
+
             }
         }
 
@@ -212,16 +221,16 @@ public class PlayerScript : MonoBehaviour
                 newRef.transform.GetComponent<HouseFloorLogic>().showCubes = true;
                 Debug.Log($"on the hosue things");
                 RaycastHit outhit;
-                
-                    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outhit, Mathf.Infinity, ~houseMask) || Physics.Raycast(ray, out outhit))
+
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outhit, Mathf.Infinity, ~houseMask) || Physics.Raycast(ray, out outhit))
+                {
+                    if (outhit.transform.tag == "HouseCover")
                     {
-                        if (outhit.transform.tag == "HouseCover")
-                        {
-                            int idx = newRef.transform.GetComponent<HouseFloorLogic>().findIndexCover(outhit.transform.gameObject);
-                            return newRef.transform.GetComponent<HouseFloorLogic>().coverPos[idx];
-                        }
+                        int idx = newRef.transform.GetComponent<HouseFloorLogic>().findIndexCover(outhit.transform.gameObject);
+                        return newRef.transform.GetComponent<HouseFloorLogic>().coverPos[idx];
                     }
-                
+                }
+
             }
         }
 
@@ -235,12 +244,12 @@ public class PlayerScript : MonoBehaviour
 
     // seems to be a var about the player being in the house not too sure what to do with that
     // the mouse thing doesnt really work need a fix on that
-    public void SeeCoverPositions() 
+    public void SeeCoverPositions()
     {
         RaycastHit outHit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outHit, Mathf.Infinity, ~basicCover) || Physics.Raycast(ray, out outHit,Mathf.Infinity, ~basicCover))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outHit, Mathf.Infinity, ~basicCover) || Physics.Raycast(ray, out outHit, Mathf.Infinity, ~basicCover))
         {
             GameObject newRef = outHit.transform.gameObject;
 
@@ -248,7 +257,7 @@ public class PlayerScript : MonoBehaviour
                 newRef.transform.GetComponent<SimpleObjectCover>().showCubes = true;
         }
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outHit, Mathf.Infinity, ~houseCover) || playerInHouse  || Physics.Raycast(ray, out outHit, Mathf.Infinity, ~houseCover))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outHit, Mathf.Infinity, ~houseCover) || playerInHouse || Physics.Raycast(ray, out outHit, Mathf.Infinity, ~houseCover))
         {
             GameObject newRef = outHit.transform.gameObject;
 
@@ -262,19 +271,19 @@ public class PlayerScript : MonoBehaviour
 
 
     // i want this to be in a soecific spot, wait a bit thengo
-    
 
-    public void ProcessMove(Vector2 input) 
+
+    public void ProcessMove(Vector2 input)
     {
         Vector3 moveDir = Vector3.zero;
         moveDir.x = input.x;
         moveDir.z = input.y;
 
 
-        if (input.x != 0 || input.y != 0) 
+        if (input.x != 0 || input.y != 0)
         {
             formationMainOBJ.transform.position = this.transform.position;
-            
+
             formationMainOBJ.transform.rotation = this.transform.rotation;
         }
 
@@ -289,24 +298,24 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    public void ProcessLook(Vector2 input) 
+    public void ProcessLook(Vector2 input)
     {
-        float mouseX= input.x;
-        float mouseY= input.y;
+        float mouseX = input.x;
+        float mouseY = input.y;
 
         xRot -= (mouseY * Time.deltaTime) * ySens;
         xRot = Mathf.Clamp(xRot, -80f, 80f);
 
         camFP.transform.localRotation = Quaternion.Euler(xRot, 0, 0);
         transform.Rotate(Vector3.up * (mouseX * Time.deltaTime) * xSens);
-    
+
     }
 
     private void FixedUpdate()
     {
         if (controlPlayer)
-        ProcessMove(playerActions.Movement.ReadValue<Vector2>());
-       
+            ProcessMove(playerActions.Movement.ReadValue<Vector2>());
+
     }
 
     public void ToggleTopView()
@@ -316,11 +325,11 @@ public class PlayerScript : MonoBehaviour
         controlPlayer = !controlPlayer;
         TopViewCamLogic.instance.changeFloorView(3);
 
-        if (controlPlayer) 
+        if (controlPlayer)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-        else 
+        else
         {
             Cursor.lockState = CursorLockMode.None;
         }
@@ -340,17 +349,17 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    private void MultiSelectTeamMate() 
+    private void MultiSelectTeamMate()
     {
 
         RaycastHit outhit;
-
-        if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity))
+        if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity, Hittable))
         {
+
             if (outhit.transform.tag == "TeamMate")
             {
                 var name = outhit.transform.GetComponent<TeamMateStateManager>().memberName;
-               
+
                 if (teamMatesNames.Contains(name))
                 {
                     for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
@@ -389,8 +398,21 @@ public class PlayerScript : MonoBehaviour
         teamMatesNames.Clear();
 
         float changeInput = playerActions.SelectTeamMate.ReadValue<float>();
-        selectedTeamMate += (int)changeInput;
 
+        if (changeInput < 0)
+        {
+            changeInput = -1;
+        }
+        else
+        {
+            changeInput = 1;
+        }
+
+
+
+
+        selectedTeamMate += (int)changeInput;
+        Debug.Log($"{changeInput}");
         if (SquadManager.instance.squadSize <= selectedTeamMate)
         {
             selectedTeamMate = 0;
@@ -417,7 +439,7 @@ public class PlayerScript : MonoBehaviour
     /// <summary>
     /// select the whole team with the side arrow keys
     /// </summary>
-    public void AllTeamSelect() 
+    public void AllTeamSelect()
     {
         teamMatesNames.Clear();
 
@@ -438,14 +460,43 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
-
-
-
-
-    public void MoveFloors() 
+    private void OneTeamSelectTeamMate()
     {
-        if (!controlPlayer) 
+
+
+        teamMatesNames.Clear();
+
+        RaycastHit outhit;
+        if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity, Hittable))
+        {
+
+            if (outhit.transform.tag == "TeamMate")
+            {
+                var name = outhit.transform.GetComponent<TeamMateStateManager>().memberName;
+                for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
+                {
+
+                    if (SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().nameText.text.Contains(name))
+                    {
+
+                        SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
+                        teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
+                    }
+                    else
+                    {
+                        SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = new Color(0.6f, 0.6f, 0.6f, 1);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+    public void MoveFloors()
+    {
+        if (!controlPlayer)
         {
             float changeInput = playerActions.moveFloorsView.ReadValue<float>();
 
@@ -454,50 +505,11 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public void PatrolAroundPoint()
-    {
 
-        //to change
-        RaycastHit outhit;
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-
-
-            //Debug.Log($"dwuaihuiwdauhidwahuidwaiuh");
-
-
-            if (controlPlayer)
-            {
-                if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity, 13))
-                {
-                    Debug.Log($"{Mathf.Infinity}");
-                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransformVector3 = outhit.point;
-
-                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().ChangeState(8);
-                }
-            }
-            else
-            {
-                if (Physics.Raycast(camTV.transform.position, camTV.transform.forward, out outhit, Mathf.Infinity, 13))
-                {
-                    //SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransform = newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx];
-
-                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransformVector3 = outhit.point;
-                    //SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().currCoverTransform = outhit;
-
-
-                    SquadManager.instance.teamMates[selectedTeamMate].GetComponent<TeamMateStateManager>().ChangeState(8);
-                }
-            }
-
-
-
-        }
-    }
 
 
     private void CallOptionUIDraw() => UIManager.instance.ToggleOptions();
-   
+
 
 
 
@@ -524,9 +536,9 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    private void ForceCoverTeamMate() 
+    private void ForceCoverTeamMate()
     {
-        if (teamMatesNames.Count == 1 && commandingTroops) 
+        if (teamMatesNames.Count == 1 && commandingTroops)
         {
             for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
             {
@@ -534,9 +546,9 @@ public class PlayerScript : MonoBehaviour
                 {
                     var pos = RetCoverPosition();
 
-                    if(pos != null) 
+                    if (pos != null)
                     {
-                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().currForcedCoverTransform = pos;
+                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().currCoverTransform = pos;
                         SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(12);
                     }
 
@@ -545,7 +557,7 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-       
+
     }
 
 
@@ -567,9 +579,10 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-    private void HoldFireTeamMates() 
+    private void HoldFireTeamMates()
     {
-        if (UIManager.instance.showOptions) {
+        if (UIManager.instance.showOptions)
+        {
             for (int i = 0; i < teamMatesNames.Count; i++)
             {
                 for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
@@ -583,7 +596,7 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-    private void UseAbilityTeamMates() 
+    private void UseAbilityTeamMates()
     {
         if (UIManager.instance.showOptions)
         {
@@ -600,48 +613,62 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-    private void IntoFormationTeamMates() 
+    private void IntoFormationTeamMates()
     {
-        if (UIManager.instance.showOptions) 
+        if (UIManager.instance.showOptions)
         {
             SquadManager.instance.ChangeSquadFormation(teamMatesNames);
         }
     }
     private void DefendPointTeamMates()
     {
+        RaycastHit outhit;
+
+
+
         if (UIManager.instance.showOptions)
         {
             for (int i = 0; i < teamMatesNames.Count; i++)
-        {
-            for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
             {
-                if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
                 {
-                    //SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(6);
-                    continue;
+                    if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                    {
+                        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outhit, Mathf.Infinity, Hittable))
+                        {
+                            SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().PatrolPoint = outhit.point;
+                            SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(14);
+                        }
+                    }
                 }
             }
         }
-    }
 
     }
     private void PatrolPointTeamMates()
     {
 
+        RaycastHit outhit;
+
+
+
         if (UIManager.instance.showOptions)
         {
             for (int i = 0; i < teamMatesNames.Count; i++)
-        {
-            for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
             {
-                if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
                 {
-                    SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(8);
-                    continue;
+                    if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                    {
+                        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out outhit, Mathf.Infinity, Hittable))
+                        {
+                            SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().PatrolPoint = outhit.point;
+                            SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(8);
+                        }
+                    }
                 }
             }
         }
-    }
     }
     private void AdvanceToPointTeamMates()
     {
@@ -649,16 +676,17 @@ public class PlayerScript : MonoBehaviour
         if (UIManager.instance.showOptions)
         {
             for (int i = 0; i < teamMatesNames.Count; i++)
-        {
-            for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
             {
-                if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
                 {
-                    //SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(6);
-                    continue;
+                    if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                    {
+                        //SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(6);
+                        continue;
+                    }
                 }
             }
-        } }
+        }
     }
 
 

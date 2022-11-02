@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     public bool showOptions;
 
 
+    public Slider pointsSlider;
+
     [SerializeField] GameObject useAbilityOBj;    // if more than 1 selected dont show
 
     [SerializeField] GameObject optionHoldFire;
@@ -21,6 +23,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject optionDefendPoint;
     [SerializeField] GameObject optionPatrolPoint;
     [SerializeField] GameObject optionAdvance;
+
+
+    public List<Texture> icons = new List<Texture>();
 
 
     // Start is called before the first frame update
@@ -125,12 +130,23 @@ public class UIManager : MonoBehaviour
         {
             optionsUI.SetActive(false);
         }
+
+        for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
+        {
+            SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().distanceText.text = "Distance: " + Vector3.Distance(PlayerScript.instance.transform.position, SquadManager.instance.teamMates[i].transform.position);
+            SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().healthSlider.value =  SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().Health;
+        }
     }
 
-    public void UpdateOptionUI(List<string> teamMatesNames) 
+    public void SetIcon(int iconIdx, string nameTm) 
     {
-         
-    
+        for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
+        {
+            if (SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().nameText.text.Contains(nameTm)) 
+            {
+                SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().stateBack.texture = icons[iconIdx];
+            }
+        }
     }
 
 

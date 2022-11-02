@@ -10,6 +10,7 @@ public abstract class TeamMateBaseState
     // abstract should mean empty and ready to be filled
     public abstract void EnterState(TeamMateStateManager teamMate);
     public abstract void OnUpdate(TeamMateStateManager teamMate);
+    public abstract void OnExit(TeamMateStateManager teamMate);
 
     public void SmoothRotateTowards(Quaternion lookAt, TeamMateStateManager teamMate)
     {
@@ -80,60 +81,55 @@ public abstract class TeamMateBaseState
     
     }
 
+    public bool RayCasterPoint(Vector3 coverPos, Vector3 pointPos)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(coverPos, (pointPos - coverPos), out hit, Vector3.Distance(coverPos, pointPos) , ~6))
+        {
+            Debug.Log($"{hit.transform.name}");
+                return true;
+            
+        }
+        else 
+        {
+            return false;
+        }
+
+    }
+
+
+
+    /// <summary>
+    /// false if there is no detected enemy
+    /// true if there is an enemy in sight
+    /// </summary>
+    /// <param name="coverPos"></param>
+    /// <param name="enemyPos"></param>
+    /// <returns></returns>
     public bool RayCasterEnemyList(Vector3 coverPos, List<GameObject> enemyPos)
     {
         RaycastHit hit;
-        //Debug.Log($"calledldlldld this is how many enemies there are {enemyPos.Count}");
 
         foreach (var enemy in enemyPos)
         {
-            //Debug.Log($"am i skipping");
 
             if (Physics.Linecast(coverPos, enemy.transform.position,out hit, SquadManager.instance.teamMates[0].GetComponent<TeamMateStateManager>().ignoreCoverLayermask))
             {
                 if (hit.transform.tag == "Enemy")
                 {
-
-                    //Debug.Log($"koapdsajdijwijeiqjei");
                     return true;
                 }
                 else
                 {
-                    //Debug.Log($"i hit this {hit.transform.name}");
                 }
             }
             else 
             {
-                //Debug.Log($"i really shouldnt be here");
                 return true;
             }
 
-
-
-
-
-
-
-
-
-
-
-            //if (Physics.Raycast(coverPos, (enemy.transform.position - coverPos), out hit, Mathf.Infinity, SquadManager.instance.teamMates[0].GetComponent<TeamMateStateManager>().ignoreCoverLayermask))
-            //{
-            //    if (hit.transform.tag == "Enemy")
-            //    {
-
-            //        Debug.Log($"koapdsajdijwijeiqjei");
-            //        return true;
-            //    }
-            //    else 
-            //    {
-            //        Debug.Log($"i hit this {hit.transform.name}");
-            //    }
-            //}
         }
 
-        Debug.Log($"i dont know whats going on");
 
         return false;
 

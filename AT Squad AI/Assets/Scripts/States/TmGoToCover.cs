@@ -13,19 +13,19 @@ public class TmGoToCover : TeamMateBaseState
     // this does different things depending if its under fire   
     public override void EnterState(TeamMateStateManager teamMate)
     {
+
+        UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "GO TO COVER";
         Debug.Log(teamMate.transform.name + " is in the go to cover state ");
         
         notShowingCooldown = 15f;
     }
-
-    public override void OnUpdate(TeamMateStateManager teamMate)
+    public override void OnExit(TeamMateStateManager teamMate)
     {
 
-
-
-
-
+    }
+    public override void OnUpdate(TeamMateStateManager teamMate)
+    {
 
         notShowingTimer += Time.deltaTime;
 

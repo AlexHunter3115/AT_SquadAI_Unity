@@ -25,6 +25,8 @@ public class TmFindCover : TeamMateBaseState
     public override void EnterState(TeamMateStateManager teamMate)
     {
 
+        UIManager.instance.SetIcon(1, teamMate.memberName);
+
         teamMate.currStateText = "FIND COVER";
        var list = CheckForEnemiesAround(teamMate);
 
@@ -56,7 +58,6 @@ public class TmFindCover : TeamMateBaseState
 
                         if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                         {
-                            //Debug.Log($"this si a free spot");
                             if (!RayCasterEnemyList(hitCollider.transform.position, list))
                             {
 
@@ -64,21 +65,54 @@ public class TmFindCover : TeamMateBaseState
                                 teamMate.currCoverTransform = hitCollider.transform;
                                 simpCoverScript.listOfAvailability[idx] = true;
                                 var name = hitCollider.transform.name;
+
+                                var worldPos = teamMate.currCoverTransform.localPosition;
                                 if (name.Contains("Positive"))   // this two are the side ones   
                                 {
                                     teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                    var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z - 0.35f);
+                                    newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
+
+                                    if (!RayCasterEnemyList(newWorldPos, list))
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+
+
                                 }
                                 else if (name.Contains("Minus"))
                                 {
                                     teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                    var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
+                                    newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
+
+
+
+
+                                    if (!RayCasterEnemyList(newWorldPos, list))
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+
+
                                 }
                                 else
                                 {
+
+                                    Vector3 adjustedPos = new Vector3(teamMate.currCoverTransform.position.x, teamMate.currCoverTransform.position.y + 1.1f, teamMate.currCoverTransform.position.z);
+
                                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                    if (!RayCasterEnemyList(adjustedPos, list)) 
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+
                                 }
 
-                                found = true;
-                                break;
+                               
                             }
                         }
                         else
@@ -115,31 +149,64 @@ public class TmFindCover : TeamMateBaseState
 
                             if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                             {
-                                //Debug.Log($"this si a free spot");
-                                if (!RayCasterEnemyList(hitCollider.transform.position, list))
+                            //Debug.Log($"this si a free spot");
+                            if (!RayCasterEnemyList(hitCollider.transform.position, list))
+                            {
+
+                                teamMate.currCoverTransformVector3 = hitCollider.transform.position;
+                                teamMate.currCoverTransform = hitCollider.transform;
+                                simpCoverScript.listOfAvailability[idx] = true;
+                                var name = hitCollider.transform.name;
+
+                                var worldPos = teamMate.currCoverTransform.localPosition;
+                                if (name.Contains("Positive"))   // this two are the side ones   
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                    var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z - 0.35f);
+                                    newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
+
+                                    if (!RayCasterEnemyList(newWorldPos, list))
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+
+
+                                }
+                                else if (name.Contains("Minus"))
+                                {
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                    var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
+                                    newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
+
+
+
+
+                                    if (!RayCasterEnemyList(newWorldPos, list))
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+
+
+                                }
+                                else
                                 {
 
-                                    teamMate.currCoverTransformVector3 = hitCollider.transform.position;
-                                    teamMate.currCoverTransform = hitCollider.transform;
-                                    simpCoverScript.listOfAvailability[idx] = true;
-                                    var name = hitCollider.transform.name;
-                                    if (name.Contains("Positive"))   // this two are the side ones   
+                                    Vector3 adjustedPos = new Vector3(teamMate.currCoverTransform.position.x, teamMate.currCoverTransform.position.y + 1.1f, teamMate.currCoverTransform.position.z);
+
+                                    teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                    if (!RayCasterEnemyList(adjustedPos, list))
                                     {
-                                        teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
-                                    }
-                                    else if (name.Contains("Minus"))
-                                    {
-                                        teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
-                                    }
-                                    else
-                                    {
-                                        teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                                        found = true;
+                                        break;
                                     }
 
-                                    found = true;
-                                    break;
                                 }
+
+
                             }
+                        }
                             else
                             {
                             }
@@ -279,7 +346,10 @@ public class TmFindCover : TeamMateBaseState
             }
         }
     }
+    public override void OnExit(TeamMateStateManager teamMate)
+    {
 
+    }
 
     // this should find a cover we dont really need the onupdate as the go to cover will deal with that
 

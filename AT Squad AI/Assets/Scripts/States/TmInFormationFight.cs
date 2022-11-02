@@ -9,6 +9,8 @@ public class TmInFormationFight : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
+
+        UIManager.instance.SetIcon(2, teamMate.memberName);
         teamMate.currStateText = "FORMATION F";
         Debug.Log(teamMate.transform.name + " is in the formation fight state ");
     }
@@ -27,6 +29,16 @@ public class TmInFormationFight : TeamMateBaseState
         GoToPoint(teamMate.FormationTran.position, teamMate);
 
     }
+
+
+
+
+    public override void OnExit(TeamMateStateManager teamMate)
+    {
+        
+    }
+
+
 }
 //new TmDead(),
 //new TmFindCover(),

@@ -7,6 +7,8 @@ public class SquadManager : MonoBehaviour
 
     public static SquadManager instance;
 
+    public GameObject flagpost;
+
     public List<GameObject> teamMates = new List<GameObject>();
     public GameObject teamMatePrefab;
 

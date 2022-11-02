@@ -22,7 +22,7 @@ public class TeamMateStateManager : MonoBehaviour
     // add the shooting 
     // check the anims
     
-    private TeamMateBaseState[] statesList = new TeamMateBaseState[13] 
+    private TeamMateBaseState[] statesList = new TeamMateBaseState[15] 
     {
         new TmDead(),  //0 
         new TmFindCover(),
@@ -36,7 +36,9 @@ public class TeamMateStateManager : MonoBehaviour
         new TmUseAbility(),
         new TmbehindCoverLateralActive(),  //10
         new TmbehindCoverLateralIdle(),
-        new TmGoToForcedCover() //12
+        new TmGoToForcedCover(), //12
+        new TmAdvance(),
+        new TmDefendPoint()//14
     };
 
 
@@ -129,6 +131,7 @@ public class TeamMateStateManager : MonoBehaviour
 
     public string currStateText;
 
+    public int changingToState;
 
     public enum CoverType 
     {
@@ -141,7 +144,7 @@ public class TeamMateStateManager : MonoBehaviour
     public CoverType currCoverType;
     public Vector3 currCoverTransformVector3;
     public Transform currCoverTransform;
-    public Transform currForcedCoverTransform;
+    //public Transform currForcedCoverTransform;
 
 
     public List<GameObject> enemyList;
@@ -153,6 +156,8 @@ public class TeamMateStateManager : MonoBehaviour
     public Text StateText;
 
     public LayerMask ignoreCoverLayermask;
+
+    public Vector3 PatrolPoint;
 
     private void Awake()
     {
@@ -197,6 +202,7 @@ public class TeamMateStateManager : MonoBehaviour
         nameText.text = "Name: " + memberName;
         abilityText.text = "Ability: " + selAbility;
 
+
     }
 
 
@@ -223,18 +229,30 @@ public class TeamMateStateManager : MonoBehaviour
 
     public void ChangeState(int state)
     {
+
+        changingToState = state;
+
+        currState.OnExit(this);
         currState = statesList[state];
+
 
         currState.EnterState(this);
     }
 
 
+    public void TakeDamage(int damage) 
+    {
+        health = health - damage;
 
+        if (health <= 0) { health = 0;    ChangeState(0); }
+
+
+    }
 
 
     public void AddHealth(int medkitAmount) 
     { 
-        health =+ medkitAmount;
+        health = health + medkitAmount;
 
         if (health >= 100) { health = 100; }
     }

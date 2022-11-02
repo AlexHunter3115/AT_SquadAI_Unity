@@ -10,6 +10,8 @@ public class TmInFormationIdle : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
+
+        UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "FORMATION I";
         Debug.Log(teamMate.transform.name + " is in the formation idle state ");
     }
@@ -39,6 +41,15 @@ public class TmInFormationIdle : TeamMateBaseState
         }
          
     }
+
+
+
+    public override void OnExit(TeamMateStateManager teamMate)
+    {
+        
+    }
+
+
 }
 //new TmDead(),
 //new TmFindCover(),

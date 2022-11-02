@@ -21,6 +21,7 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
     // also we need to have propriaterys timers here one for the cooldown and one for the reantry
     public override void EnterState(TeamMateStateManager teamMate)
     {
+        UIManager.instance.SetIcon(2, teamMate.memberName);
         showing = false;
         Debug.Log(teamMate.transform.name + " is in the front fight state ");
         teamMate.currStateText = "BCFF";
@@ -30,6 +31,27 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
 
 
         ShowSelf(teamMate);
+    }
+
+    public override void OnExit(TeamMateStateManager teamMate)
+    {
+
+
+        if (teamMate.changingToState == 5)
+        {
+
+        }
+        else
+        {
+            var simpCoverScript = teamMate.currCoverTransform.transform.GetComponentInParent<SimpleObjectCover>();
+            int idx = simpCoverScript.findIndexCoverTransforms(teamMate.currCoverTransform.gameObject);
+            simpCoverScript.listOfAvailability[idx] = false;
+        }
+
+
+
+        teamMate.transform.GetChild(3).gameObject.SetActive(false);
+        teamMate.transform.GetChild(2).gameObject.SetActive(true);
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)
@@ -59,9 +81,6 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
                 ShowSelf(teamMate);
             }
         }
-
-
-
     }
 
 
@@ -78,8 +97,10 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
         if (showing)
         {
 
+            teamMate.transform.GetChild(3).gameObject.SetActive(false);
+            teamMate.transform.GetChild(2).gameObject.SetActive(true);
 
-            teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.blue;
+            //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.blue;
 
             List<GameObject> list = CheckForEnemiesAround(teamMate);
             if (list.Count > 0)
@@ -90,8 +111,10 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
         else
         {
 
-            teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.green;
+            //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.green;
             //hide
+            teamMate.transform.GetChild(3).gameObject.SetActive(true);
+            teamMate.transform.GetChild(2).gameObject.SetActive(false);
         }
     }
 
