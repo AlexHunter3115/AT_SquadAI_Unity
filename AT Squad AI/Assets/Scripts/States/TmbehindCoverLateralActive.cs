@@ -49,9 +49,19 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
+
+
+
+        list = CheckForEnemiesAround(teamMate);
+
+
+
         if (showing)
         {
+
             showingTimer += Time.deltaTime;
+            if (list.Count > 0)
+                ShootAt(list[0], teamMate);
 
             if (showingTimer >= showingCooldown)
             {
@@ -98,6 +108,8 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
                 newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
                 GoToPoint(newWorldPos, teamMate);
             }
+
+
 
 
             list = CheckForEnemiesAround(teamMate);

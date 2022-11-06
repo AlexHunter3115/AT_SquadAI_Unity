@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class ScorePoints : MonoBehaviour
 {
-
+    public static ScorePoints instance;
 
     public bool capturing;
 
     public float gainSpeed;
     public float loseSpeed;
 
+
+
+    private void Start()
+    {
+        instance = this;
+    }
+
     private void OnTriggerStay(Collider other)
     {
 
         if (other.transform.tag == "Player" || other.transform.tag == "TeamMate")
         {
+
+            enemySpawnerManager.instance.allowed = true;
+
             capturing = true;
             UIManager.instance.pointsSlider.value = UIManager.instance.pointsSlider.value + (Time.deltaTime * gainSpeed);
         }
@@ -37,6 +47,7 @@ public class ScorePoints : MonoBehaviour
         if (UIManager.instance.pointsSlider.value > 99.99f)
         {
             Debug.Log($"you win");
+            Application.Quit();
         }
 
 

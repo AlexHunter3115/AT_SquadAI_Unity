@@ -11,6 +11,21 @@ public class TmUseAbility : TeamMateBaseState
         UIManager.instance.SetIcon(5, teamMate.memberName);
         teamMate.currStateText = "USE ABILITY";
         Debug.Log(teamMate.transform.name + " is in the ability state ");
+
+
+        switch (teamMate.SelAbility)
+        {
+            case TeamMateStateManager.AbilityType.GRANADIER:
+                teamMate.ChangeState(16);
+                break;
+            case TeamMateStateManager.AbilityType.MEDIC:
+                teamMate.ChangeState(15);
+                break;
+            case TeamMateStateManager.AbilityType.ROPE:
+                break;
+            default:
+                break;
+        }
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)

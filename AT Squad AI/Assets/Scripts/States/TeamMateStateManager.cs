@@ -22,7 +22,7 @@ public class TeamMateStateManager : MonoBehaviour
     // add the shooting 
     // check the anims
     
-    private TeamMateBaseState[] statesList = new TeamMateBaseState[15] 
+    private TeamMateBaseState[] statesList = new TeamMateBaseState[17] 
     {
         new TmDead(),  //0 
         new TmFindCover(),
@@ -38,7 +38,9 @@ public class TeamMateStateManager : MonoBehaviour
         new TmbehindCoverLateralIdle(),
         new TmGoToForcedCover(), //12
         new TmAdvance(),
-        new TmDefendPoint()//14
+        new TmDefendPoint(),//14
+        new TmMedic(),
+        new TmGranedier()//16
     };
 
 
@@ -133,6 +135,11 @@ public class TeamMateStateManager : MonoBehaviour
 
     public int changingToState;
 
+    public float lastFire;
+    public float fireRate = 0.2f;
+
+    public GameObject explosive;
+
     public enum CoverType 
     {
         POSITIVE,
@@ -159,6 +166,10 @@ public class TeamMateStateManager : MonoBehaviour
 
     public Vector3 PatrolPoint;
 
+    public int abilityUsage = 3;
+    public float lastAbilityUsed;
+    public float abilityRate= 20f;
+
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -176,10 +187,6 @@ public class TeamMateStateManager : MonoBehaviour
 
             case AbilityType.MEDIC:
                 navMeshAgent.speed = 3.5f;
-                break;
-
-            case AbilityType.ROPE:
-                navMeshAgent.speed = 4.5f;
                 break;
 
             default:
@@ -201,7 +208,6 @@ public class TeamMateStateManager : MonoBehaviour
 
         nameText.text = "Name: " + memberName;
         abilityText.text = "Ability: " + selAbility;
-
 
     }
 
@@ -229,7 +235,6 @@ public class TeamMateStateManager : MonoBehaviour
 
     public void ChangeState(int state)
     {
-
         changingToState = state;
 
         currState.OnExit(this);
@@ -255,6 +260,12 @@ public class TeamMateStateManager : MonoBehaviour
         health = health + medkitAmount;
 
         if (health >= 100) { health = 100; }
+    }
+
+
+    public void CallExplosive() 
+    {
+        Instantiate(explosive,new Vector3(target.transform.position.x, target.transform.position.y + 10f, target.transform.position.z), target.transform.rotation);
     }
 
 }

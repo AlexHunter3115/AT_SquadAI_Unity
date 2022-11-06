@@ -5,34 +5,15 @@ using UnityEngine.InputSystem.HID;
 
 public class TmFindCover : TeamMateBaseState
 {
-   
-
-    // this all works just need to add a way for them to advance, maybe check for the parent how far it is from the goal, take them all sort array and then do the shit from there
-
-
-
-    // for the agility 
-
-
-
-
-
-
-
-    // prioritize the one closest to the core
-
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
-
         UIManager.instance.SetIcon(1, teamMate.memberName);
 
         teamMate.currStateText = "FIND COVER";
-       var list = CheckForEnemiesAround(teamMate);
+        var list = CheckForEnemiesAround(teamMate);
 
         if (list.Count > 0) { teamMate.Allerted = true; }
-
-
 
 
         Debug.Log($"{teamMate.memberName} is trying to find cover");
@@ -44,17 +25,14 @@ public class TmFindCover : TeamMateBaseState
             Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 15);
             foreach (var hitCollider in hitColliders)
             {
-                //Debug.Log($"did this even call {hitCollider.transform.tag}");
                 if (hitCollider.transform.tag == "BasicCoverPos")
                 {
-                    //Debug.Log($"found something in the tag");
-                    
+
                     var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
-                    if (!simpCoverScript.SpotsTaken()) 
+                    if (!simpCoverScript.SpotsTaken())
                     {
                         int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
-
 
                         if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                         {
@@ -79,7 +57,6 @@ public class TmFindCover : TeamMateBaseState
                                         break;
                                     }
 
-
                                 }
                                 else if (name.Contains("Minus"))
                                 {
@@ -87,16 +64,11 @@ public class TmFindCover : TeamMateBaseState
                                     var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
                                     newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
 
-
-
-
                                     if (!RayCasterEnemyList(newWorldPos, list))
                                     {
                                         found = true;
                                         break;
                                     }
-
-
                                 }
                                 else
                                 {
@@ -104,22 +76,15 @@ public class TmFindCover : TeamMateBaseState
                                     Vector3 adjustedPos = new Vector3(teamMate.currCoverTransform.position.x, teamMate.currCoverTransform.position.y + 1.1f, teamMate.currCoverTransform.position.z);
 
                                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
-                                    if (!RayCasterEnemyList(adjustedPos, list)) 
+                                    if (!RayCasterEnemyList(adjustedPos, list))
                                     {
                                         found = true;
                                         break;
                                     }
-
                                 }
-
-                               
                             }
                         }
-                        else
-                        {
-                        }
                     }
-               
                 }
             }
 
@@ -128,7 +93,6 @@ public class TmFindCover : TeamMateBaseState
 
                 teamMate.ChangeState(2);
 
-
             }
             else
             {
@@ -136,20 +100,14 @@ public class TmFindCover : TeamMateBaseState
 
                 foreach (var hitCollider in hitColliders)
                 {
-                    //Debug.Log($"did this even call {hitCollider.transform.tag}");
                     if (hitCollider.transform.tag == "BasicCoverPos")
                     {
-                        //Debug.Log($"found something in the tag");
-
                         var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
-                        
-                            int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
+                        int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
 
-
-                            if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
-                            {
-                            //Debug.Log($"this si a free spot");
+                        if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
+                        {
                             if (!RayCasterEnemyList(hitCollider.transform.position, list))
                             {
 
@@ -171,7 +129,6 @@ public class TmFindCover : TeamMateBaseState
                                         break;
                                     }
 
-
                                 }
                                 else if (name.Contains("Minus"))
                                 {
@@ -179,20 +136,15 @@ public class TmFindCover : TeamMateBaseState
                                     var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
                                     newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
 
-
-
-
                                     if (!RayCasterEnemyList(newWorldPos, list))
                                     {
                                         found = true;
                                         break;
                                     }
 
-
                                 }
                                 else
                                 {
-
                                     Vector3 adjustedPos = new Vector3(teamMate.currCoverTransform.position.x, teamMate.currCoverTransform.position.y + 1.1f, teamMate.currCoverTransform.position.z);
 
                                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
@@ -201,35 +153,20 @@ public class TmFindCover : TeamMateBaseState
                                         found = true;
                                         break;
                                     }
-
                                 }
-
-
                             }
                         }
-                            else
-                            {
-                            }
-                        
-
                     }
                 }
 
 
-
-
                 if (found)
                 {
-
                     teamMate.ChangeState(2);
-
-
                 }
                 else
                 {
-
-
-                    teamMate.ChangeState(3);
+                    teamMate.ChangeState(7);
                     Debug.Log($"sitting on my hands");
                 }
 
@@ -285,11 +222,11 @@ public class TmFindCover : TeamMateBaseState
                 }
             }
 
-            if (found) 
+            if (found)
             {
-                   teamMate.ChangeState(2);
+                teamMate.ChangeState(2);
             }
-            else 
+            else
             {
 
                 found = false;
@@ -335,11 +272,11 @@ public class TmFindCover : TeamMateBaseState
 
 
 
-                if (found) 
+                if (found)
                 {
                     teamMate.ChangeState(2);
                 }
-                else 
+                else
                 {
                     teamMate.ChangeState(3);
                 }

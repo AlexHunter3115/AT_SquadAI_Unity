@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 3098317344288947965}
   m_Layer: 7
   m_Name: crouhingBody
-  m_TagString: Untagged
+  m_TagString: TeamMate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -382,7 +382,7 @@ SphereCollider:
   m_GameObject: {fileID: 4085636871989362763}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 6894681992487599819}
   m_Layer: 7
   m_Name: StandingBody
-  m_TagString: Untagged
+  m_TagString: TeamMate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -480,7 +480,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4286300075656252529}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -1051,15 +1051,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2617468109105931920, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9300957
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617468109105931920, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5999994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617468109105931920, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.1499662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617468109105931920, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1095,7 +1095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2617468109105931923, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617468109105931923, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: m_IsTrigger
@@ -1129,6 +1129,10 @@ PrefabInstance:
       propertyPath: StateText
       value: 
       objectReference: {fileID: 140432159780096256}
+    - target: {fileID: 3913738449532714830, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
+      propertyPath: explosive
+      value: 
+      objectReference: {fileID: 1845161865311776713, guid: f318c950f70244f4bb8c514854efdf0b, type: 3}
     - target: {fileID: 3913738449532714830, guid: 56a3321f39e45d349b3ed7b486165b60, type: 3}
       propertyPath: abilityText
       value: 

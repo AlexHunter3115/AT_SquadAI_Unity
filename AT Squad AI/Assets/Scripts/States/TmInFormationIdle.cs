@@ -12,7 +12,7 @@ public class TmInFormationIdle : TeamMateBaseState
     {
 
         UIManager.instance.SetIcon(1, teamMate.memberName);
-        teamMate.currStateText = "FORMATION I";
+        teamMate.currStateText = "FORM I";
         Debug.Log(teamMate.transform.name + " is in the formation idle state ");
     }
 

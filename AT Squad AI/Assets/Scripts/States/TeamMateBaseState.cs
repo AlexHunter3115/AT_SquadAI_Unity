@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unity.VisualScripting.Member;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public abstract class TeamMateBaseState
 {
@@ -35,8 +37,31 @@ public abstract class TeamMateBaseState
     { return Quaternion.Euler(new Vector3(0.0f, Random.Range(0f, 359f), 0.0f)); }
     //to change
     public void ShootAt(GameObject target, TeamMateStateManager teamMate)
-    { teamMate.Target = target;
-        // look at and fire logic here
+    {   teamMate.Target = target;
+
+
+        Vector3 fromPosition = teamMate.transform.position;
+        Vector3 toPosition = target.transform.position;
+        Vector3 direction = toPosition - fromPosition;
+
+
+        if (Time.time > teamMate.lastFire + teamMate.fireRate)
+        {
+            teamMate.lastFire = Time.time;
+            RaycastHit outHit;
+            if (Physics.Raycast(teamMate.transform.position + new Vector3(0,0.5f,0), direction, out outHit, Mathf.Infinity, PlayerScript.instance.Hittable))
+            {
+
+                //Debug.Log($"{outHit.transform.name}");
+
+
+                if (outHit.transform.tag == "Enemy")
+                {
+                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(0);
+                }
+            }
+        }
+
     }
 
     public void LookAt(GameObject target, TeamMateStateManager teamMate)

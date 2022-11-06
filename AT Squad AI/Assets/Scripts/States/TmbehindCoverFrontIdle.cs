@@ -76,23 +76,15 @@ public class TmbehindCoverFrontIdle : TeamMateBaseState
         }
         else 
         {
-
             var simpCoverScript = teamMate.currCoverTransform.transform.GetComponentInParent<SimpleObjectCover>();
             int idx = simpCoverScript.findIndexCoverTransforms(teamMate.currCoverTransform.gameObject);
             simpCoverScript.listOfAvailability[idx] = false;
 
-
         }
-
-
 
         teamMate.transform.GetChild(3).gameObject.SetActive(false);
 
         teamMate.transform.GetChild(2).gameObject.SetActive(true);
-
-
-
-
 
     }
 
@@ -106,9 +98,6 @@ public class TmbehindCoverFrontIdle : TeamMateBaseState
         {
             teamMate.transform.GetChild(3).gameObject.SetActive(false);
             teamMate.transform.GetChild(2).gameObject.SetActive(true);
-            
-            
-            
             
             //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.blue;
             List<GameObject> list =  CheckForEnemiesAround(teamMate);

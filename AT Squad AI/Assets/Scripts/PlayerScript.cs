@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.HID;
+using Random = UnityEngine.Random;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -28,7 +30,6 @@ public class PlayerScript : MonoBehaviour
 
     public List<string> teamMatesNames = new List<string>();
 
-
     public List<Transform> SquadFormations;
 
     public LayerMask basicCover;
@@ -50,13 +51,12 @@ public class PlayerScript : MonoBehaviour
     public float lastFire = 0;
     public float inaccuracy = 0.1f;
 
-
+    public GameObject endPoint;
 
     public enum FormationType
     {
         SQUARE = 0,
-        DELTA,
-        WORM
+        DELTA
     }
 
     public FormationType currFormation;
@@ -139,8 +139,8 @@ public class PlayerScript : MonoBehaviour
     {
 
 
-        var x = (1 - 2 * Random.value) * inaccuracy;
-        var y = (1 - 2 * Random.value) * inaccuracy;
+        var x = (1 - 2 * Random.value) * 0.005f;
+        var y = (1 - 2 * Random.value) * 0.005f;
 
 
         Vector3 newDir = camFP.transform.TransformDirection(new Vector3(x, y, 1));
@@ -155,11 +155,11 @@ public class PlayerScript : MonoBehaviour
 
                 if (outHit.transform.tag == "TeamMate")
                 {
-                    outHit.transform.GetComponent<TeamMateStateManager>().TakeDamage(5);
+                    outHit.transform.root.GetComponent<TeamMateStateManager>().TakeDamage(5);
                 }
-                else if (outHit.transform.tag == "Enemy")
+                if (outHit.transform.tag == "Enemy")
                 {
-
+                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(10);
                 }
 
                 GameObject newRef = Instantiate(bulletPrefab);
@@ -176,7 +176,7 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    public Transform RetCoverPosition()
+    public Transform RetCoverPosition(int x)
     {
 
         RaycastHit outHit;
@@ -201,6 +201,45 @@ public class PlayerScript : MonoBehaviour
 
                         if (!newRef.transform.GetComponent<SimpleObjectCover>().listOfAvailability[idx])   // if the place is not taken
                         {
+                            var teaMate = SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>();
+
+                            teaMate.currCoverTransformVector3 = outhit.transform.position;
+                            teaMate.currCoverTransform = outhit.transform;
+                            var name = outhit.transform.name;
+
+                            var worldPos = teaMate.currCoverTransform.localPosition;
+                            
+
+                            if (name.Contains("Positive"))   // this two are the side ones   
+                            {
+                                teaMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
+                                var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z - 0.35f);
+                                newWorldPos = teaMate.currCoverTransform.TransformPoint(newWorldPos);
+
+                                
+
+
+                            }
+                            else if (name.Contains("Minus"))
+                            {
+                                teaMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
+                                var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
+                                newWorldPos = teaMate.currCoverTransform.TransformPoint(newWorldPos);
+
+
+
+                            }
+                            else
+                            {
+
+                                Vector3 adjustedPos = new Vector3(teaMate.currCoverTransform.position.x, teaMate.currCoverTransform.position.y + 1.1f, teaMate.currCoverTransform.position.z);
+
+                                SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().currCoverType = TeamMateStateManager.CoverType.FORWARD;
+                               
+
+                            }
+
+
                             newRef.transform.GetComponent<SimpleObjectCover>().listOfAvailability[idx] = true;
                             return newRef.transform.GetComponent<SimpleObjectCover>().listOfPossiblePos[idx];
                         }
@@ -241,6 +280,43 @@ public class PlayerScript : MonoBehaviour
 
 
     }
+
+
+
+    private void ForceCoverTeamMate()
+    {
+        if (teamMatesNames.Count == 1 && commandingTroops)
+        {
+            for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
+            {
+                if (teamMatesNames[0] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
+                {
+                    var pos = RetCoverPosition(x);
+
+                    if (pos != null)
+                    {
+                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().currCoverTransform = pos;
+                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(12);
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // seems to be a var about the player being in the house not too sure what to do with that
     // the mouse thing doesnt really work need a fix on that
@@ -313,6 +389,7 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (controlPlayer)
             ProcessMove(playerActions.Movement.ReadValue<Vector2>());
 
@@ -337,11 +414,14 @@ public class PlayerScript : MonoBehaviour
 
     public void FormationFunction()
     {
-        currFormation++;
 
-        if (currFormation == FormationType.WORM)
+        if (currFormation == FormationType.DELTA)
         {
             currFormation = FormationType.SQUARE;
+        }
+        else if (currFormation == FormationType.SQUARE) 
+        {
+            currFormation = FormationType.DELTA;
         }
 
         SquadManager.instance.ChangeSquadFormation(teamMatesNames);
@@ -351,14 +431,13 @@ public class PlayerScript : MonoBehaviour
 
     private void MultiSelectTeamMate()
     {
-
         RaycastHit outhit;
         if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity, Hittable))
         {
 
             if (outhit.transform.tag == "TeamMate")
             {
-                var name = outhit.transform.GetComponent<TeamMateStateManager>().memberName;
+                var name = outhit.transform.root.GetComponent<TeamMateStateManager>().memberName;
 
                 if (teamMatesNames.Contains(name))
                 {
@@ -409,10 +488,7 @@ public class PlayerScript : MonoBehaviour
         }
 
 
-
-
         selectedTeamMate += (int)changeInput;
-        Debug.Log($"{changeInput}");
         if (SquadManager.instance.squadSize <= selectedTeamMate)
         {
             selectedTeamMate = 0;
@@ -426,9 +502,15 @@ public class PlayerScript : MonoBehaviour
         {
             if (selectedTeamMate == i)
             {
-
-                SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
-                teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
+                if (SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().Health != 0) 
+                {
+                    teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
+                    SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
+                }
+                else 
+                {
+                    SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.red;
+                }
             }
             else
             {
@@ -445,10 +527,18 @@ public class PlayerScript : MonoBehaviour
 
         for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
         {
-            teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
-            SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
+
+            if (SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().Health != 0) 
+            {
+                teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
+                SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
+            }
+         
         }
     }
+
+
+
     public void AllTeamDeSelect()
     {
         teamMatesNames.Clear();
@@ -462,35 +552,35 @@ public class PlayerScript : MonoBehaviour
 
     private void OneTeamSelectTeamMate()
     {
-
-
-        teamMatesNames.Clear();
-
         RaycastHit outhit;
         if (Physics.Raycast(camFP.transform.position, camFP.transform.forward, out outhit, Mathf.Infinity, Hittable))
         {
-
             if (outhit.transform.tag == "TeamMate")
             {
-                var name = outhit.transform.GetComponent<TeamMateStateManager>().memberName;
-                for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
+
+                teamMatesNames.Clear();
+                if (outhit.transform.root.GetComponent<TeamMateStateManager>().Health != 0)
                 {
+                    var name = outhit.transform.root.GetComponent<TeamMateStateManager>().memberName;
 
-                    if (SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().nameText.text.Contains(name))
+                    for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
                     {
 
-                        SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
-                        teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
-                    }
-                    else
-                    {
-                        SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = new Color(0.6f, 0.6f, 0.6f, 1);
+                        if (SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().nameText.text.Contains(name))
+                        {
+
+                            SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = Color.blue;
+                            teamMatesNames.Add(SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().memberName);
+                        }
+                        else
+                        {
+                            SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = new Color(0.6f, 0.6f, 0.6f, 1);
+                        }
                     }
                 }
             }
         }
     }
-
 
 
 
@@ -505,23 +595,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-
-
-
     private void CallOptionUIDraw() => UIManager.instance.ToggleOptions();
-
-
-
-
-
-
-    private void test()
-    {
-        //commandingTroops = false;
-        //selectedTeamMate = 0;
-        Debug.Log($"called for the set cover");
-        SquadManager.instance.teamMates[0].GetComponent<TeamMateStateManager>().ChangeState(1);
-    }
 
 
     private void OnEnable()
@@ -536,29 +610,6 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    private void ForceCoverTeamMate()
-    {
-        if (teamMatesNames.Count == 1 && commandingTroops)
-        {
-            for (int x = 0; x < SquadManager.instance.teamMates.Count; x++)
-            {
-                if (teamMatesNames[0] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
-                {
-                    var pos = RetCoverPosition();
-
-                    if (pos != null)
-                    {
-                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().currCoverTransform = pos;
-                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(12);
-                    }
-
-                    break;
-                }
-            }
-        }
-
-
-    }
 
 
 
@@ -681,8 +732,8 @@ public class PlayerScript : MonoBehaviour
                 {
                     if (teamMatesNames[i] == SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().memberName)
                     {
-                        //SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(6);
-                        continue;
+                        SquadManager.instance.teamMates[x].GetComponent<TeamMateStateManager>().ChangeState(13);
+                     
                     }
                 }
             }

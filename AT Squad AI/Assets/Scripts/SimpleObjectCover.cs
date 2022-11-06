@@ -91,7 +91,10 @@ public class SimpleObjectCover : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// this is for the priority fo non already taken one
+    /// </summary>
+    /// <returns></returns>
     public bool SpotsTaken() 
     {
         for (int i = 0; i < listOfAvailability.Count; i++)

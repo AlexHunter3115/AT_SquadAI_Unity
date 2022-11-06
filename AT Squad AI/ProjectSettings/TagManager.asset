@@ -9,6 +9,7 @@ TagManager:
   - HouseCover
   - Enemy
   - BasicCoverPos
+  - EnemyPoint
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - House
   - Ghost
   - Ground
-  - 
+  - EnemyPoint
   - 
   - 
   - 

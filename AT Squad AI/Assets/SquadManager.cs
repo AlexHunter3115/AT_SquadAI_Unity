@@ -49,8 +49,6 @@ public class SquadManager : MonoBehaviour
 
                 string placeholderName = Random.Range(0, 9999).ToString();
 
-               
-
                     for (int x = 0; x < i; x++)
                     {
                         if (placeholderName == teamMates[x].GetComponent<TeamMateStateManager>().memberName)
@@ -60,13 +58,7 @@ public class SquadManager : MonoBehaviour
                         }
                     }
                 
-
-
-
-                if (nameCheck) 
-                {
-                    
-                }
+                if (nameCheck)  {}
                 else 
                 {
                     teamMates[i].GetComponent<TeamMateStateManager>().memberName = placeholderName;
@@ -78,14 +70,14 @@ public class SquadManager : MonoBehaviour
 
             var name = newRef.GetComponent<TeamMateStateManager>().memberName;
             var ability = newRef.GetComponent<TeamMateStateManager>().SelAbility;
-
-            newRef.transform.position = playerScript.SquadFormations[(int)playerScript.currFormation].transform.GetChild(i).position;
+            newRef.transform.position = playerScript.SquadFormations[0].transform.GetChild(i).position;
 
             newRef = Instantiate(prefabTMUi, UIHolder.transform);
             newRef.GetComponent<TeamMateUISlot>().nameText.text = "Name: " + name;
             newRef.GetComponent<TeamMateUISlot>().abilityText.text = "Ability: " + ability;
             uiList.Add(newRef);
         }
+
     }
 
 
@@ -105,9 +97,7 @@ public class SquadManager : MonoBehaviour
 
     public void ChangeSquadFormation(List<string> names) 
     {
-
-
-
+        //need a check prob
         for (int i = 0; i < names.Count; i++)
         {
             for (int x = 0; x < teamMates.Count; x++)
@@ -131,22 +121,5 @@ public class SquadManager : MonoBehaviour
                 }
             }
         }
-
-
-
-
-
-
-        //for (int i = 0; i < squadSize; i++)
-        //{
-        //    //meObject newRef = teamMates[i];  //adds to the enemy and instatiat
-
-        //    //int formInd = (int)playerScript.currFormation;
-            
-
-            
-        //    //teamMates[i].GetComponent<TeamMateStateManager>().ChangeState()
-        //    //teamMates[i].GetComponent<TestNevMash>().movepositionTransform = SquadFormations.transform.GetChild((int)playerScript.currFormation).transform.GetChild(i).transform;   // sets the nevmesh
-        //}
     }
 }
