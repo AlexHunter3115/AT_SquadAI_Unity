@@ -17,7 +17,8 @@ public class TmGoToCover : TeamMateBaseState
         UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "GO TO COVER";
         Debug.Log(teamMate.transform.name + " is in the go to cover state ");
-        
+
+        notShowingTimer = 0;
         notShowingCooldown = 15f;
     }
     public override void OnExit(TeamMateStateManager teamMate)
@@ -31,16 +32,26 @@ public class TmGoToCover : TeamMateBaseState
 
         if (notShowingTimer >= notShowingCooldown)
         {
-            Debug.Log($"iweqiwouwqioruwqiruwqioeuwqeiowqueqwieu");
             notShowingTimer = 0;
             teamMate.transform.position = teamMate.currCoverTransform.position;
         }
 
 
+        var list = CheckForEnemiesAround(teamMate);
+        if (list.Count > 0) 
+        {
+            teamMate.Allerted = true;
+        }
+        else 
+        {
+            teamMate.Allerted = false;
+        }
+
 
         if (teamMate.Allerted) 
         {
-            //should look at the enemy
+            Debug.Log($"ddsdfdfdsfdssfd");
+            ShootAt(list[0], teamMate);
         }
         
         GoToPoint(teamMate.currCoverTransformVector3, teamMate);
@@ -71,17 +82,5 @@ public class TmGoToCover : TeamMateBaseState
                 }
             }
         }
-        
-
     }
 }
-//new TmDead(),
-//new TmFindCover(),
-//new TmGoToCover(),
-//new TmIdleWaiting(),
-//new TmInCoverFight(),
-//new TmInCoverIdle(),
-//new TmInFormationFight(),
-//new TmInFormationIdle(),
-//new TmPatrollingAroundPoint(),
-//new TmUseAbility()

@@ -140,7 +140,7 @@ public class EnemyScript : MonoBehaviour
 
                 if (outHit.transform.tag == "TeamMate")
                 {
-                    outHit.transform.root.GetComponent<TeamMateStateManager>().TakeDamage(0);
+                    outHit.transform.root.GetComponent<TeamMateStateManager>().TakeDamage(5);
                 }
               
 

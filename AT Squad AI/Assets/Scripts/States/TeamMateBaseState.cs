@@ -57,7 +57,7 @@ public abstract class TeamMateBaseState
 
                 if (outHit.transform.tag == "Enemy")
                 {
-                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(0);
+                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(10);
                 }
             }
         }

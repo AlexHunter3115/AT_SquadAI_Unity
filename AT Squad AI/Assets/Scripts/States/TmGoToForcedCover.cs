@@ -23,10 +23,22 @@ public class TmGoToForcedCover : TeamMateBaseState
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
+        var list = CheckForEnemiesAround(teamMate);
+        if (list.Count > 0)
+        {
+            teamMate.Allerted = true;
+        }
+        else
+        {
+            teamMate.Allerted = false;
+        }
+
+
         if (teamMate.Allerted)
         {
-            //should look at the enemy
+            ShootAt(list[0], teamMate);
         }
+
 
         GoToPoint(teamMate.currCoverTransform.position, teamMate);
 
@@ -62,7 +74,6 @@ public class TmGoToForcedCover : TeamMateBaseState
                 else
                 {
                     teamMate.ChangeState(4);
-                    Debug.Log($"dont call this pls");
                 }
             }
             else
@@ -87,18 +98,12 @@ public class TmGoToForcedCover : TeamMateBaseState
                 if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE || teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
                 {
                     teamMate.ChangeState(11);
-
-                    Debug.Log($"dont call this pls");
                 }
                 else
                 {
-                    Debug.Log($"pls tell me this gets calls");
                     teamMate.ChangeState(5);
                 }
             }
-        }
-        else
-        {
         }
 
     }
