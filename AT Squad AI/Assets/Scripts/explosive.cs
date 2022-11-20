@@ -26,5 +26,8 @@ public class explosive : MonoBehaviour
                 item.transform.root.GetComponent<EnemyScript>().TakeDamage(40);
             }
         }
+
+
+        Destroy(gameObject);
     }
 }

@@ -16,15 +16,41 @@ public class TmPatrollingAroundPoint : TeamMateBaseState
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
+
+        var list = CheckForEnemiesAround(teamMate);
+
+
+        if (list.Count > 0)
+        {
+            teamMate.Allerted = true;
+
+            teamMate.NavMeshAgent.isStopped = true;
+
+            ShootAt(list[0], teamMate);
+
+        }
+        else 
+        {
+
+
+
+            teamMate.NavMeshAgent.isStopped = false;
+            teamMate.Allerted = false;
+        }
+
+
+
+
         GoToPoint(teamMate.PatrolPoint,teamMate);
 
 
 
         if (ReachedDestination(teamMate)) 
         {
+            Debug.Log($"dffdssfdfds");
             Vector3 newPos = new Vector3(teamMate.PatrolPoint.x + Random.Range(-7,7) , teamMate.transform.position.y, teamMate.PatrolPoint.z + Random.Range(-7, 7));
-            teamMate.currCoverTransformVector3 = newPos;
-        
+            teamMate.PatrolPoint = newPos;
+            GoToPoint(newPos, teamMate);
         }
     }
 
