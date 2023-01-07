@@ -15,7 +15,7 @@ public class TmMedic : TeamMateBaseState
     public override void EnterState(TeamMateStateManager teamMate)
     {
         // get the teammate with lowest health
-
+        lowestHealth = 9999;
         Debug.Log($"in the medic ability");
 
         if (teamMate.abilityUsage == 0) 
@@ -29,50 +29,82 @@ public class TmMedic : TeamMateBaseState
                 teamMate.ChangeState(7);
             }
         }
-
-
-        for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
+        else 
         {
 
-            float health = SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().healthSlider.value;
 
-            if (health < lowestHealth)
+            for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
             {
-                idx = i;
-                lowestHealth = health;
+
+                float health = SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().healthSlider.value;
+
+                if (health < lowestHealth)
+                { 
+                    idx = i;
+                    lowestHealth = health;
+                }
+
             }
-            
-        }
-        if (lowestHealth == 100) {
-            if (teamMate.Allerted)
+
+
+
+            if (lowestHealth == 100)
             {
-                teamMate.ChangeState(1);
+                if (teamMate.Allerted)
+                {
+                    teamMate.ChangeState(1);
+                }
+                else
+                {
+                    teamMate.ChangeState(7);
+                }
             }
             else
             {
-                teamMate.ChangeState(7);
+
+                if (teamMate.name == SquadManager.instance.uiList[idx].name) //it self
+                {
+
+                    SquadManager.instance.teamMates[idx].GetComponent<TeamMateStateManager>().AddHealth(45);
+
+
+
+                    if (teamMate.Allerted)
+                    {
+                        teamMate.ChangeState(1);
+                    }
+                    else
+                    {
+                        teamMate.ChangeState(7);
+                    }
+
+                }
+                else
+                {
+
+                    GoToPoint(SquadManager.instance.teamMates[idx].transform.position, teamMate);
+                }
+
+
+
             }
         }
-        else
-        {
-            GoToPoint(SquadManager.instance.teamMates[idx].transform.position, teamMate);
-        }
+
+
 
 
 
     }
     public override void OnExit(TeamMateStateManager teamMate)
     {
-
         // find cover around
     }
+
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
-        Debug.Log($"{Vector3.Distance(teamMate.transform.position, SquadManager.instance.teamMates[idx].transform.position)}");
         if (Vector3.Distance(teamMate.transform.position, SquadManager.instance.teamMates[idx].transform.position) < 1f) 
         {
             SquadManager.instance.teamMates[idx].GetComponent<TeamMateStateManager>().AddHealth(30);
-            Debug.Log($"jfuiewhruewruweruewrwerew");
             if (teamMate.Allerted) 
             {
                 teamMate.ChangeState(1);

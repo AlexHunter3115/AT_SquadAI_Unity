@@ -40,8 +40,6 @@ public class EnemyScript : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-
-
         agent.destination = enemySpawnerManager.instance.point.position;
         move = true;
         agent.isStopped = false;
@@ -59,7 +57,6 @@ public class EnemyScript : MonoBehaviour
 
     public void CallMove() 
     {
-
         agent.destination = enemySpawnerManager.instance.point.position;
         move = true;
     }
@@ -150,23 +147,12 @@ public class EnemyScript : MonoBehaviour
             }
         }
 
-
-
-
-
         _direction.y = 0;
 
         //create the rotation we need to be in to look at the target
         var _lookRotation = Quaternion.LookRotation(_direction);
 
         this.transform.rotation = _lookRotation;
-
-
-
-
-
-
-
 
     }
 }

@@ -70,6 +70,7 @@ public class SquadManager : MonoBehaviour
 
             var name = newRef.GetComponent<TeamMateStateManager>().memberName;
             var ability = newRef.GetComponent<TeamMateStateManager>().SelAbility;
+            newRef.GetComponent<TeamMateStateManager>().FormationTran = playerScript.SquadFormations[0].transform.GetChild(i);
             newRef.transform.position = playerScript.SquadFormations[0].transform.GetChild(i).position;
 
             newRef = Instantiate(prefabTMUi, UIHolder.transform);

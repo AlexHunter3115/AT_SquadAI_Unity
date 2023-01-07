@@ -82,7 +82,7 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
         {
             notShowingTimer += Time.deltaTime;
 
-            if (notShowingTimer >= notShowingCooldown)
+            if (notShowingTimer >= notShowingCooldown && !teamMate.holdFire)
             {
                 notShowingTimer = 0;
                 showing = !showing;

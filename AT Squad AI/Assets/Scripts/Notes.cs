@@ -18,4 +18,14 @@
  * the look
  * 
  * main menu
+ * 
+ * 
+ * 
+ * actual things left not much just the look, there are some issue with the raycasts and some enemies thant dont get detected but overall i think its fine how it is
+ * does need a menu and some explanations
+ * 
+ * when there are enemnis in the middle lose, increase the enemies coming to you 
+ * when the friendly die finish game
+ * 
+ *
  */

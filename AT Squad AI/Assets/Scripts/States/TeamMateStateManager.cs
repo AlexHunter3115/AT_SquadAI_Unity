@@ -200,7 +200,7 @@ public class TeamMateStateManager : MonoBehaviour
 
     private void Start()
     {
-        currState = statesList[3];
+        currState = statesList[7];
         currState.EnterState(this);
 
         playerObj = GameObject.FindGameObjectWithTag("Player");

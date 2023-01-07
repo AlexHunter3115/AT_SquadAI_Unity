@@ -57,7 +57,7 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
         {
             notShowingTimer += Time.deltaTime;
 
-            if (notShowingTimer >= notShowingCooldown)
+            if (notShowingTimer >= notShowingCooldown && !teamMate.holdFire)
             {
                 notShowingTimer = 0;
                 showing = !showing;
@@ -97,16 +97,11 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
 
             var worldPos = teamMate.currCoverTransform.localPosition;
 
-           
-
-
             if (teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
             {
-
                 var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
                 newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
                 GoToPoint(newWorldPos, teamMate);
-
             }
             else if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE)
             {
