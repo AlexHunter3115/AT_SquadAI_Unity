@@ -46,12 +46,17 @@ public class PlayerScript : MonoBehaviour
     public bool controlPlayer;
     public bool playerInHouse;
 
-
     public float fireRate = 0.2f;
     public float lastFire = 0;
     public float inaccuracy = 0.1f;
 
     public GameObject endPoint;
+    [SerializeField] GameObject[] muzzleEffect = new GameObject[5];
+    [SerializeField] GameObject hitEffect;
+    [SerializeField] GameObject muzzlePoint;
+
+    [SerializeField] Animator animator;
+    [SerializeField] CharacterController charContr;
 
     public enum FormationType
     {
@@ -105,6 +110,13 @@ public class PlayerScript : MonoBehaviour
         camTV.enabled = false;
         controlPlayer = true;
         playerInHouse = false;
+
+        UIManager.instance.AddNewMessageToQueue("Keep your troops alive and capture the flag", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("Use Mouse scroll, right mouse click to select your troops", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("To select more troops use shift right mouse buttons", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("You can also use Right Arrow to select all or Left Arrow to deselect all", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("Once a tropp is selected hold the middle mouse button for the different options or Press T to tell it to take cover", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("Press X to toggle the top down view", Color.blue);
     }
 
 
@@ -132,49 +144,41 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-
-
-
     public void ShootingRayCastManager()
     {
-
-
         var x = (1 - 2 * Random.value) * 0.005f;
         var y = (1 - 2 * Random.value) * 0.005f;
-
 
         Vector3 newDir = camFP.transform.TransformDirection(new Vector3(x, y, 1));
 
         if (Time.time > lastFire + fireRate)
         {
-
             lastFire = Time.time;
             RaycastHit outHit;
             if (Physics.Raycast(camFP.transform.position, newDir, out outHit, Mathf.Infinity, Hittable))
             {
-
-                if (outHit.transform.tag == "TeamMate")
+                if (outHit.transform.CompareTag("TeamMate"))
                 {
                     outHit.transform.root.GetComponent<TeamMateStateManager>().TakeDamage(5);
                 }
-                if (outHit.transform.tag == "Enemy")
+                if (outHit.transform.CompareTag("Enemy"))
                 {
                     outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(10);
                 }
 
-                GameObject newRef = Instantiate(bulletPrefab);
-                newRef.transform.position = outHit.point;
-                newRef.transform.parent = outHit.transform;
+                var objs=  Instantiate(muzzleEffect[Random.Range(0, 5)], muzzlePoint.transform.position, muzzlePoint.transform.rotation);
+
+                objs.transform.parent = transform;
+
+                Instantiate(hitEffect, outHit.point, Quaternion.LookRotation(outHit.normal));
+
+                var obj = Instantiate(bulletPrefab, outHit.point, Quaternion.identity);
+                obj.transform.parent = outHit.transform;
             }
         }
     }
 
-
-
-
     // two things happening     one draws   the other one sends command
-
-
 
     public Transform RetCoverPosition(int x)
     {
@@ -280,9 +284,6 @@ public class PlayerScript : MonoBehaviour
 
 
     }
-
-
-
     private void ForceCoverTeamMate()
     {
         if (teamMatesNames.Count == 1 && commandingTroops)
@@ -304,19 +305,6 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // seems to be a var about the player being in the house not too sure what to do with that
     // the mouse thing doesnt really work need a fix on that
@@ -342,10 +330,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
-
-
-
     // i want this to be in a soecific spot, wait a bit thengo
 
 
@@ -354,7 +338,6 @@ public class PlayerScript : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
         moveDir.x = input.x;
         moveDir.z = input.y;
-
 
         if (input.x != 0 || input.y != 0)
         {
@@ -370,9 +353,9 @@ public class PlayerScript : MonoBehaviour
         playerVelocity.y += gravity * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
 
-
-
+        animator.SetFloat("Speed", input.magnitude);
     }
+
 
     public void ProcessLook(Vector2 input)
     {

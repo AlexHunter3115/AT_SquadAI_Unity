@@ -26,19 +26,15 @@ public class TmInFormationFight : TeamMateBaseState
             teamMate.ChangeState(7);
         }
 
-
         if (list.Count > 0) 
         {
-
             ShootAt(list[0], teamMate);
+            LookAt(list[0], teamMate);
+            teamMate.NavMeshAgent.isStopped = true;
         }
 
         GoToPoint(teamMate.FormationTran.position, teamMate);
-
     }
-
-
-
 
     public override void OnExit(TeamMateStateManager teamMate)
     {
@@ -47,14 +43,3 @@ public class TmInFormationFight : TeamMateBaseState
 
 
 }
-//new TmDead(),
-//new TmFindCover(),
-//new TmGoToCover(),
-//new TmIdleWaiting(),
-//new TmInCoverFight(),
-//new TmInCoverIdle(),
-//new TmInFormationFight(),
-//new TmInFormationIdle(),
-//new TmPatrollingAroundPoint(),
-//new TmUseAbility()
-//new forcegotocover()

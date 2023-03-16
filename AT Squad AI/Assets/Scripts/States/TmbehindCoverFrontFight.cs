@@ -38,8 +38,6 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
 
     public override void OnExit(TeamMateStateManager teamMate)
     {
-
-
         if (teamMate.changingToState == 5)
         {
 
@@ -51,21 +49,16 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
             simpCoverScript.listOfAvailability[idx] = false;
         }
 
-
-
         teamMate.transform.GetChild(3).gameObject.SetActive(false);
         teamMate.transform.GetChild(2).gameObject.SetActive(true);
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
-
-
         list = CheckForEnemiesAround(teamMate);
 
         if (showing)
         {
-
             showingTimer += Time.deltaTime;
 
             if (list.Count > 0)
@@ -92,22 +85,15 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
     }
 
 
-
-
-
-
-
-
-
     // is where we see if there are any enemies left
     public void ShowSelf(TeamMateStateManager teamMate)
     {
         if (showing)
         {
-
             teamMate.transform.GetChild(3).gameObject.SetActive(false);
             teamMate.transform.GetChild(2).gameObject.SetActive(true);
 
+            teamMate.AnimatorSetter(2);
             //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.blue;
 
             List<GameObject> list = CheckForEnemiesAround(teamMate);
@@ -118,13 +104,17 @@ public class TmbehindCoverFrontFight : TeamMateBaseState
         }
         else
         {
-
             //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.green;
             //hide
             teamMate.transform.GetChild(3).gameObject.SetActive(true);
             teamMate.transform.GetChild(2).gameObject.SetActive(false);
+
+
+            if (teamMate.NavMeshAgent.remainingDistance < 0.1f)
+            {
+                teamMate.AnimatorSetter(4);
+            }
+
         }
     }
-
-
 }

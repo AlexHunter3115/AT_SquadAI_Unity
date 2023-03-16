@@ -5,21 +5,18 @@ using UnityEngine.AI;
 
 public class TmGoToCover : TeamMateBaseState
 {
-
-
-
     private float notShowingCooldown;
     private float notShowingTimer;
     // this does different things depending if its under fire   
     public override void EnterState(TeamMateStateManager teamMate)
     {
-
         UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "GO TO COVER";
-        Debug.Log(teamMate.transform.name + " is in the go to cover state ");
 
         notShowingTimer = 0;
         notShowingCooldown = 15f;
+
+        teamMate.AnimatorSetter(5);
     }
     public override void OnExit(TeamMateStateManager teamMate)
     {
@@ -27,7 +24,6 @@ public class TmGoToCover : TeamMateBaseState
     }
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
-
         notShowingTimer += Time.deltaTime;
 
         if (notShowingTimer >= notShowingCooldown)
@@ -35,7 +31,6 @@ public class TmGoToCover : TeamMateBaseState
             notShowingTimer = 0;
             teamMate.transform.position = teamMate.currCoverTransform.position;
         }
-
 
         var list = CheckForEnemiesAround(teamMate);
         if (list.Count > 0) 
@@ -50,7 +45,6 @@ public class TmGoToCover : TeamMateBaseState
 
         if (teamMate.Allerted) 
         {
-            Debug.Log($"ddsdfdfdsfdssfd");
             ShootAt(list[0], teamMate);
         }
         
@@ -58,7 +52,6 @@ public class TmGoToCover : TeamMateBaseState
 
         if (ReachedDestination(teamMate)) 
         {
-            Debug.Log($"called for reached ");
             if (teamMate.Allerted) 
             {
                 if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE || teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)

@@ -30,20 +30,20 @@ public abstract class TeamMateBaseState
         } 
     }
 
-    public void GoToPoint(Vector3 pos, TeamMateStateManager teamMate)
-    { teamMate.NavMeshAgent.destination = pos; }
+    public void GoToPoint(Vector3 pos, TeamMateStateManager teamMate) => teamMate.NavMeshAgent.destination = pos;
 
     public Quaternion GenRandomRot()
     { return Quaternion.Euler(new Vector3(0.0f, Random.Range(0f, 359f), 0.0f)); }
     //to change
     public void ShootAt(GameObject target, TeamMateStateManager teamMate)
-    {   teamMate.Target = target;
-
+    {   
+        teamMate.Target = target;
 
         Vector3 fromPosition = teamMate.transform.position;
         Vector3 toPosition = target.transform.position;
         Vector3 direction = toPosition - fromPosition;
 
+        LookAt(target, teamMate);
 
         if (Time.time > teamMate.lastFire + teamMate.fireRate)
         {
@@ -51,17 +51,15 @@ public abstract class TeamMateBaseState
             RaycastHit outHit;
             if (Physics.Raycast(teamMate.transform.position + new Vector3(0,0.5f,0), direction, out outHit, Mathf.Infinity, PlayerScript.instance.Hittable))
             {
-
-                //Debug.Log($"{outHit.transform.name}");
-
-
                 if (outHit.transform.tag == "Enemy")
                 {
-                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(10);
+                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(Random.Range(4,10));
                 }
+                teamMate.AnimatorSetter(0);
+
+                teamMate.InstaStuff(outHit);
             }
         }
-
     }
 
     public void LookAt(GameObject target, TeamMateStateManager teamMate)
@@ -122,8 +120,8 @@ public abstract class TeamMateBaseState
 
     }
 
-
-
+    public void SetMessage(string text, Color color) => UIManager.instance.SendMessage(text, color);
+  
     /// <summary>
     /// false if there is no detected enemy
     /// true if there is an enemy in sight
@@ -162,7 +160,6 @@ public abstract class TeamMateBaseState
 
     public List<GameObject> CheckForEnemiesAround(TeamMateStateManager teamMate) 
     {
-
         List<GameObject> enemiesList = new List<GameObject> ();
 
         Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 10);
@@ -170,16 +167,11 @@ public abstract class TeamMateBaseState
         {
             if (hitCollider.transform.tag == "Enemy")
             {
-                enemiesList.Add(hitCollider.gameObject);
+                 enemiesList.Add(hitCollider.gameObject);
             }
         }
 
-
         return enemiesList;
-
     }
  
-    
-
-
 }

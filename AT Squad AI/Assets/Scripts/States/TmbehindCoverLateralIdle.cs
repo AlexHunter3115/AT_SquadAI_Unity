@@ -18,8 +18,6 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
     // also we need to have propriaterys timers here one for the cooldown and one for the reantry
     public override void EnterState(TeamMateStateManager teamMate)
     {
-
-
         UIManager.instance.SetIcon(3, teamMate.memberName);
         showing = false;
         Debug.Log(teamMate.transform.name + " is in the lateral idle state ");
@@ -27,7 +25,6 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
 
         showingCooldown = 3f; //set the timer for how long the obj is going to be showing
         notShowingCooldown = 1f;
-
 
         ShowSelf(teamMate);
     }
@@ -46,12 +43,7 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
                 showing = !showing;
                 ShowSelf(teamMate);
             }
-
-
-
             //shoot
-
-
         }
         else if (!showing && ReachedDestination(teamMate))
         {
@@ -110,9 +102,14 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
                 GoToPoint(newWorldPos, teamMate);
             }
 
-
-
-
+            if (teamMate.NavMeshAgent.remainingDistance < 0.01f) 
+            {
+                teamMate.AnimatorSetter(3);
+            }
+            else 
+            {
+                teamMate.AnimatorSetter(5);
+            }
 
             var list = CheckForEnemiesAround(teamMate);
             if (list.Count > 0)
@@ -123,27 +120,23 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
         else
         {
 
-            teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-
+           // teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.red;
 
             if (teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
             {
                 GoToPoint(teamMate.currCoverTransformVector3, teamMate);
-
             }
             else if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE)
             {
-
-
                 GoToPoint(teamMate.currCoverTransformVector3, teamMate);
             }
 
-
+            if (teamMate.NavMeshAgent.remainingDistance < 0.1f) 
+            {
+                teamMate.AnimatorSetter(4);
+            }
 
             //could make it go to the point
-
-
-
 
             //hide
         }

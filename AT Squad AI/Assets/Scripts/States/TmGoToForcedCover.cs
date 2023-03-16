@@ -7,10 +7,11 @@ public class TmGoToForcedCover : TeamMateBaseState
     // this does different things depending if its under fire   
     public override void EnterState(TeamMateStateManager teamMate)
     {
-
         UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "GO TO FC";
-        Debug.Log(teamMate.transform.name + " is in the go to cover state ");
+
+
+        teamMate.AnimatorSetter(5);
     }
 
 
@@ -33,21 +34,17 @@ public class TmGoToForcedCover : TeamMateBaseState
             teamMate.Allerted = false;
         }
 
-
         if (teamMate.Allerted)
         {
             ShootAt(list[0], teamMate);
         }
 
-
         GoToPoint(teamMate.currCoverTransform.position, teamMate);
 
         if (ReachedDestination(teamMate))
         {
-            Debug.Log($"called for reached ");
             if (teamMate.Allerted)
             {
-                
                 var name = teamMate.currCoverTransform.transform.name;
                 if (name.Contains("Positive"))   // this two are the side ones   
                 {
@@ -62,11 +59,6 @@ public class TmGoToForcedCover : TeamMateBaseState
                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
                 }
                 
-              
-
-
-
-
                 if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE || teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
                 {
                     teamMate.ChangeState(10);
@@ -78,8 +70,6 @@ public class TmGoToForcedCover : TeamMateBaseState
             }
             else
             {
-
-
                 var name = teamMate.currCoverTransform.transform.name;
                 if (name.Contains("Positive"))   // this two are the side ones   
                 {
@@ -93,7 +83,6 @@ public class TmGoToForcedCover : TeamMateBaseState
                 {
                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
                 }
-
 
                 if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE || teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
                 {

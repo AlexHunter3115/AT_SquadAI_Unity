@@ -13,7 +13,7 @@ public class TeamMateStateManager : MonoBehaviour
         get { return CurrState; }
     }
 
-
+    [SerializeField] Animator animator;
 
 
     // need to add the advance cover 
@@ -170,6 +170,10 @@ public class TeamMateStateManager : MonoBehaviour
     public float lastAbilityUsed;
     public float abilityRate= 20f;
 
+    [SerializeField] GameObject[] muzzleEffect = new GameObject[5];
+    [SerializeField] GameObject hitEffect;
+    [SerializeField] GameObject muzzlePoint;
+
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -196,8 +200,6 @@ public class TeamMateStateManager : MonoBehaviour
         alive = true;
     }
 
-
-
     private void Start()
     {
         currState = statesList[7];
@@ -205,33 +207,24 @@ public class TeamMateStateManager : MonoBehaviour
 
         playerObj = GameObject.FindGameObjectWithTag("Player");
 
-
         nameText.text = "Name: " + memberName;
         abilityText.text = "Ability: " + selAbility;
-
     }
-
 
     private void Update()
     {
         if (alive && health <= 0) 
         {
             alive = false;
-            ChangeState(0);     
+            ChangeState(0);
+            AnimatorSetter(1);
         }
 
         healthSlider.value = health;
         StateText.text = "State: " +currStateText;
 
-
-
-
-
-
-
         currState.OnUpdate(this);   
     }
-
 
     public void ChangeState(int state)
     {
@@ -244,16 +237,29 @@ public class TeamMateStateManager : MonoBehaviour
         currState.EnterState(this);
     }
 
+    public void InstaStuff(RaycastHit outHit) 
+    {
+        var objs = Instantiate(muzzleEffect[Random.Range(0, 5)], muzzlePoint.transform.position, muzzlePoint.transform.rotation);
+
+        objs.transform.parent = transform;
+
+        Instantiate(hitEffect, outHit.point, Quaternion.identity);
+
+        var obj = Instantiate(PlayerScript.instance.bulletPrefab, outHit.point, Quaternion.LookRotation(outHit.normal));
+        obj.transform.parent = outHit.transform;
+    }
 
     public void TakeDamage(int damage) 
     {
         health = health - damage;
 
-        if (health <= 0) { health = 0;    ChangeState(0); }
-
-
+        if (health <= 0) 
+        {
+            health = 0;    
+            ChangeState(0);
+            NavMeshAgent.isStopped = true;
+        }
     }
-
 
     public void AddHealth(int medkitAmount) 
     { 
@@ -262,10 +268,65 @@ public class TeamMateStateManager : MonoBehaviour
         if (health >= 100) { health = 100; }
     }
 
-
     public void CallExplosive() 
     {
         Instantiate(explosive,new Vector3(target.transform.position.x, target.transform.position.y + 10f, target.transform.position.z), target.transform.rotation);
+    }
+
+
+    /// <summary>
+    /// 0 shoot  --- 1 dead ---  2 idle alerted  ---   3   idle not alerted   --- 4 to cover    ---  5 on the move
+    /// </summary>
+    /// <param name="animationIndex"></param>
+    public void AnimatorSetter(int animationIndex) 
+    {
+        switch (animationIndex)
+        {
+            case 0: //shoot
+                animator.SetTrigger("Shoot");
+                break;
+
+            case 1:  //dead
+                animator.SetTrigger("Die");
+                break;
+
+            case 2: //set idle alerted
+                animator.SetBool("Alerted" , true);
+                animator.SetBool("Moving" , false);
+                animator.SetBool("Idle" , true);
+                animator.SetBool("Cover" , false);
+                break;
+
+            case 3: //set idle not allerted
+                animator.SetBool("Alerted", false);
+                animator.SetBool("Moving", false);
+                animator.SetBool("Idle", true);
+                animator.SetBool("Cover", false);
+                break;
+
+            case 4:  //set to cover
+
+                animator.SetBool("Alerted", false);
+                animator.SetBool("Moving", false);
+                animator.SetBool("Idle", false);
+                animator.SetBool("Cover", true);
+
+                break;
+
+            case 5:  //on the move
+
+                animator.SetBool("Alerted", false);
+                animator.SetBool("Moving", true);
+                animator.SetBool("Idle", false);
+                animator.SetBool("Cover", false);
+                break;
+
+            case 6:
+                break;
+
+            default:
+                break;
+        }
     }
 
 }

@@ -10,23 +10,17 @@ public class TmAdvance : TeamMateBaseState
     {
         UIManager.instance.SetIcon(1, teamMate.memberName);
 
-
         teamMate.currStateText = "ADVANCING";
-
 
         Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 20);
 
         if (hitColliders.Length > 0)
         {
-
-            Debug.Log($"oweoewioewropewiropwiopweor");
             int _idx = 0;
             float distance = 9999;
 
-
             for (int i = 0; i < hitColliders.Length; i++)
             {
-
                 if (hitColliders[i].transform.tag == "BasicCoverPos")
                 {
                     if (Vector3.Distance(hitColliders[i].transform.position, PlayerScript.instance.endPoint.transform.position) < distance)
@@ -38,22 +32,16 @@ public class TmAdvance : TeamMateBaseState
                             distance = Vector3.Distance(hitColliders[i].transform.position, PlayerScript.instance.endPoint.transform.position);
                             _idx = i;
                         }
-
                     }
                 }
             }
 
-
-
             var simpCoverScript = hitColliders[_idx].transform.GetComponentInParent<SimpleObjectCover>();
-
 
             int idx = simpCoverScript.findIndexCoverTransforms(hitColliders[_idx].gameObject);
 
             if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
             {
-
-
                 teamMate.currCoverTransformVector3 = hitColliders[_idx].transform.position;
                 teamMate.currCoverTransform = hitColliders[_idx].transform;
                 simpCoverScript.listOfAvailability[idx] = true;
@@ -65,26 +53,18 @@ public class TmAdvance : TeamMateBaseState
                     teamMate.currCoverType = TeamMateStateManager.CoverType.POSITIVE;
                     //var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z - 0.35f);
                     //newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
-
-
-
                 }
                 else if (name.Contains("Minus"))
                 {
                     teamMate.currCoverType = TeamMateStateManager.CoverType.NEGATIVE;
                     //var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
                     //newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
-
-
                 }
                 else
                 {
-
                     //Vector3 adjustedPos = new Vector3(teamMate.currCoverTransform.position.x, teamMate.currCoverTransform.position.y + 1.1f, teamMate.currCoverTransform.position.z);
 
                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
-
-
                 }
             }
 

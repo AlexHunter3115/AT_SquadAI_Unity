@@ -12,6 +12,9 @@ public class ScorePoints : MonoBehaviour
     public float loseSpeed;
 
 
+    public Light light;
+
+
 
     private void Start()
     {
@@ -43,6 +46,11 @@ public class ScorePoints : MonoBehaviour
                 UIManager.instance.pointsSlider.value = UIManager.instance.pointsSlider.value - (Time.deltaTime * loseSpeed);
             }
         }
+
+        Color color = Color.Lerp(Color.red, Color.blue, UIManager.instance.pointsSlider.value / 100f);
+        // Set the color of the light
+        light.color = color;
+
 
         if (UIManager.instance.pointsSlider.value > 99.99f)
         {

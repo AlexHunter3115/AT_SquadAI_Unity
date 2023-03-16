@@ -87,10 +87,6 @@ public class SimpleObjectCover : MonoBehaviour
 
     }
 
-
-
-
-
     /// <summary>
     /// this is for the priority fo non already taken one
     /// </summary>

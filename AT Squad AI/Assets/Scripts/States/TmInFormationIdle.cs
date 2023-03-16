@@ -10,15 +10,14 @@ public class TmInFormationIdle : TeamMateBaseState
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
-
         UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "FORM I";
-        Debug.Log(teamMate.transform.name + " is in the formation idle state ");
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
-        
+        if (Vector3.Distance(teamMate.FormationTran.position, teamMate.transform.position) < 0.3f) 
+        {
             var time = TimerCheck(teamMate.formationCooldown, teamMate.formationTimer);
 
             if (time != -1)
@@ -27,29 +26,32 @@ public class TmInFormationIdle : TeamMateBaseState
                 lookAt = GenRandomRot();
             }
 
-           SmoothRotateTowards(lookAt, teamMate);
-       
-           GoToPoint(teamMate.FormationTran.position, teamMate);
+            teamMate.AnimatorSetter(3);
 
-
+            SmoothRotateTowards(lookAt, teamMate);
+        }
+        else 
+        {
+            teamMate.AnimatorSetter(5);
+            GoToPoint(teamMate.FormationTran.position, teamMate);
+        }
 
         List<GameObject> list = CheckForEnemiesAround(teamMate);
 
-        if (list.Count > 0) 
+        if (list.Count > 0)
         {
             teamMate.ChangeState(6);
         }
-         
+        else 
+        {
+            teamMate.NavMeshAgent.isStopped = false;
+        }
     }
-
-
 
     public override void OnExit(TeamMateStateManager teamMate)
     {
-        
+
     }
-
-
 }
 //new TmDead(),
 //new TmFindCover(),

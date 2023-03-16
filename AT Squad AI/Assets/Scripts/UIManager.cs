@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject optionsUI;
+    [SerializeField] GameObject canvas;
 
     public static UIManager instance;
 
     public bool showOptions;
-
 
     public Slider pointsSlider;
 
@@ -24,9 +24,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject optionPatrolPoint;
     [SerializeField] GameObject optionAdvance;
 
+    private Queue<Message> messageQueue = new Queue<Message>();
+    [SerializeField] GameObject messagePrefab;
+    private bool currentMessageDone = true;
 
     public List<Texture> icons = new List<Texture>();
-
+    private GameObject currentMessage;
 
     // Start is called before the first frame update
     void Start()
@@ -40,8 +43,6 @@ public class UIManager : MonoBehaviour
     {
         showOptions = !showOptions;
     }
-
-
 
     private void Update()
     {
@@ -97,8 +98,6 @@ public class UIManager : MonoBehaviour
                     }
                 }
 
-
-
                 if (holding > firing)
                 {
                     holdFire = true;
@@ -114,17 +113,7 @@ public class UIManager : MonoBehaviour
                     holdFire = true;
                     optionHoldFire.GetComponent<RawImage>().color = Color.green;
                 }
-
-
-
-
             }
-
-
-            
-
-
-
         }
         else 
         {
@@ -135,6 +124,16 @@ public class UIManager : MonoBehaviour
         {
             SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().distanceText.text = "Distance: " + Vector3.Distance(PlayerScript.instance.transform.position, SquadManager.instance.teamMates[i].transform.position);
             SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().healthSlider.value =  SquadManager.instance.teamMates[i].GetComponent<TeamMateStateManager>().Health;
+        }
+
+        if (messageQueue.Count > 0 && currentMessageDone == true) 
+        {
+            currentMessageDone = false;
+
+            Message message = messageQueue.Dequeue();
+
+            currentMessage = Instantiate(messagePrefab,canvas.transform);
+            currentMessage.GetComponent<MessageUI>().SetMessage(message.text,message.color);
         }
     }
 
@@ -149,7 +148,24 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public class Message 
+    {
+        public string text = "";
+        public Color color = Color.red;
 
+        public Message(string text, Color color) 
+        {
+            this.text = text;
+            this.color = color;
+        }
+    }
+
+    public void AddNewMessageToQueue(string text, Color color) => messageQueue.Enqueue(new Message(text, color));
+    public void SetCurrentMessageToDone() 
+    {
+        currentMessageDone = true;
+        Destroy(currentMessage);
+    }
 
 
 

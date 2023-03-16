@@ -98,7 +98,8 @@ public class TmbehindCoverFrontIdle : TeamMateBaseState
         {
             teamMate.transform.GetChild(3).gameObject.SetActive(false);
             teamMate.transform.GetChild(2).gameObject.SetActive(true);
-            
+
+            teamMate.AnimatorSetter(3);
             //teamMate.transform.GetComponent<MeshRenderer>().material.color = Color.blue;
             List<GameObject> list =  CheckForEnemiesAround(teamMate);
             if (list.Count > 0) 
@@ -113,6 +114,13 @@ public class TmbehindCoverFrontIdle : TeamMateBaseState
             //hide
             teamMate.transform.GetChild(3).gameObject.SetActive(true);
             teamMate.transform.GetChild(2).gameObject.SetActive(false);
+
+
+            if (teamMate.NavMeshAgent.remainingDistance < 0.1f)
+            {
+                teamMate.AnimatorSetter(4);
+            }
+
         }
     }
 

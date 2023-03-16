@@ -11,9 +11,9 @@ public class TmDead : TeamMateBaseState
         teamMate.transform.GetChild(2).gameObject.SetActive(false);
 
         UIManager.instance.SetIcon(4, teamMate.memberName);
-        Debug.Log($"{teamMate.SelAbility} has died....");
         teamMate.currStateText = "DEAD";
 
+        teamMate.AnimatorSetter(1);
 
     }
     public override void OnExit(TeamMateStateManager teamMate)
@@ -27,7 +27,6 @@ public class TmDead : TeamMateBaseState
         if (teamMate.Health > 0) 
         {
             teamMate.Alive = true;
-
 
             var list = CheckForEnemiesAround(teamMate);
 
@@ -43,8 +42,6 @@ public class TmDead : TeamMateBaseState
             {
                 teamMate.ChangeState(5);
             }
-
-
         }
     }
 }

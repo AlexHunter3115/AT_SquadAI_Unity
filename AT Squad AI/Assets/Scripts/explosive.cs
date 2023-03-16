@@ -5,15 +5,13 @@ using UnityEngine;
 public class explosive : MonoBehaviour
 {
 
-
+    [SerializeField] GameObject effect;
 
 
 
     private void OnCollisionEnter(Collision collision)
     {
-
         Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 20);
-
 
         foreach (var item in hitColliders)
         {
@@ -27,7 +25,7 @@ public class explosive : MonoBehaviour
             }
         }
 
-
+        Instantiate(effect, this.transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

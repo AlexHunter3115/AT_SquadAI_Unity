@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class enemySpawnerManager : MonoBehaviour
 {
-
     public static enemySpawnerManager instance;
 
     public List<Transform> spawnPlaces;
@@ -28,21 +27,15 @@ public class enemySpawnerManager : MonoBehaviour
     {
         if (allowed) 
         {
-
             if (Time.time > lastSpawn + spawnRate)
             {
-
                 lastSpawn = Time.time;
 
-
                 int ranNum = Random.Range(0, spawnPlaces.Count);
-
 
                 GameObject newRef = Instantiate(enemyPrefab, spawnPlaces[ranNum].transform.position, enemyPrefab.transform.rotation, this.transform);
                 newRef.GetComponent<EnemyScript>().CallMove();
             }
-
         }
-      
     }
 }

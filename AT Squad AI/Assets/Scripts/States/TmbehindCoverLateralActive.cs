@@ -83,24 +83,18 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
         }
     }
 
-
-
-
     // is where we see if there are any enemies left
     public void ShowSelf(TeamMateStateManager teamMate)
     {
         if (showing)
         {
-
             var worldPos = teamMate.currCoverTransform.localPosition;
 
             if (teamMate.currCoverType == TeamMateStateManager.CoverType.NEGATIVE)
             {
-
                 var newWorldPos = new Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35f);
                 newWorldPos = teamMate.currCoverTransform.TransformPoint(newWorldPos);
                 GoToPoint(newWorldPos, teamMate);
-
             }
             else if (teamMate.currCoverType == TeamMateStateManager.CoverType.POSITIVE)
             {
@@ -109,8 +103,14 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
                 GoToPoint(newWorldPos, teamMate);
             }
 
-
-
+            if (teamMate.NavMeshAgent.remainingDistance < 0.01f)
+            {
+                teamMate.AnimatorSetter(2);
+            }
+            else
+            {
+                teamMate.AnimatorSetter(5);
+            }
 
             list = CheckForEnemiesAround(teamMate);
             if (list.Count == 0)
@@ -133,12 +133,10 @@ public class TmbehindCoverLateralActive : TeamMateBaseState
                 GoToPoint(teamMate.currCoverTransformVector3, teamMate);
             }
 
-
-
-            //could make it go to the point
-
-
-
+            if (teamMate.NavMeshAgent.remainingDistance < 0.1f)
+            {
+                teamMate.AnimatorSetter(4);
+            }
 
             //hide
         }
