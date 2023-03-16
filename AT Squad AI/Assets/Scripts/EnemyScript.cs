@@ -33,6 +33,8 @@ public class EnemyScript : MonoBehaviour
 
     private GameObject point;
 
+    public bool test = false;
+
     public NavMeshAgent agent;
 
     private bool move;
@@ -105,26 +107,14 @@ public class EnemyScript : MonoBehaviour
              agent.isStopped = false;
         }
 
-        if (shotAt) 
+        if(agent.velocity.magnitude > 0.4f  &&  !agent.isStopped )
         {
-            if (standingBody.activeSelf) 
-            {
-                lastStanding = Time.time;
-                if (move)
-                    agent.isStopped = true;
-            }
-
-            if (Time.time > lastStanding + standingRate)
-            {
-                lastStanding = Time.time;
-                shotAt = false;
-            }
+            SetAnim(4);
         }
-
-        //if (!ReachedDestination() && ) 
-        //{
-        //    SetAnim(2);
-        //}
+        else 
+        {
+            SetAnim(2);
+        }
     }
 
 
@@ -179,8 +169,6 @@ public class EnemyScript : MonoBehaviour
     /// <param name="animationIndex"></param>
     public void SetAnim(int animationIndex) 
     {
-        Debug.Log(animationIndex);
-
         switch (animationIndex)
         {
             case 0://shoot
@@ -196,19 +184,11 @@ public class EnemyScript : MonoBehaviour
 
             case 2:// idle
                 animator.SetBool("Idle", true);
-                animator.SetBool("Duck", false);
-                animator.SetBool("Move", false);
-                break;
-
-            case 3://duck
-                animator.SetBool("Duck", true);
-                animator.SetBool("Idle", false);
                 animator.SetBool("Move", false);
                 break;
 
             case 4://run
                 animator.SetBool("Move", true);
-                animator.SetBool("Duck", false);
                 animator.SetBool("Idle", false);
                 break;
 
@@ -222,6 +202,7 @@ public class EnemyScript : MonoBehaviour
     private IEnumerator CallDead() 
     {
         yield return new WaitForSeconds(2f);
+        PlayerScript.instance.enemiesKilled++;
         Destroy(gameObject);
     }
 

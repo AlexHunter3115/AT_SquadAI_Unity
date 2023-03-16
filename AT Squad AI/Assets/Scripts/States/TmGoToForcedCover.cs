@@ -10,7 +10,6 @@ public class TmGoToForcedCover : TeamMateBaseState
         UIManager.instance.SetIcon(1, teamMate.memberName);
         teamMate.currStateText = "GO TO FC";
 
-
         teamMate.AnimatorSetter(5);
     }
 
@@ -19,7 +18,6 @@ public class TmGoToForcedCover : TeamMateBaseState
     {
 
     }
-
 
 
     public override void OnUpdate(TeamMateStateManager teamMate)
@@ -94,6 +92,5 @@ public class TmGoToForcedCover : TeamMateBaseState
                 }
             }
         }
-
     }
 }

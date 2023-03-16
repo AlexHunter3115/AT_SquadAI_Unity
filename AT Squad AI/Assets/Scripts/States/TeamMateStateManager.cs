@@ -153,9 +153,7 @@ public class TeamMateStateManager : MonoBehaviour
     public Transform currCoverTransform;
     //public Transform currForcedCoverTransform;
 
-
     public List<GameObject> enemyList;
-
 
     public Slider healthSlider;
     public Text nameText;
@@ -255,6 +253,7 @@ public class TeamMateStateManager : MonoBehaviour
 
         if (health <= 0) 
         {
+            UIManager.instance.AddNewMessageToQueue($"{nameText.text} has sustained heavy damage and is down", Color.red);
             health = 0;    
             ChangeState(0);
             NavMeshAgent.isStopped = true;

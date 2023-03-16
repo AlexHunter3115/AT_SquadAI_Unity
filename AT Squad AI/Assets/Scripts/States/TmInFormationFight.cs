@@ -1,20 +1,16 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 
 public class TmInFormationFight : TeamMateBaseState
 {
-    // when following the player in formation and will be firing at someone
-
     List<GameObject> list = new List<GameObject>();
 
     public override void EnterState(TeamMateStateManager teamMate)
     {
-
         UIManager.instance.SetIcon(2, teamMate.memberName);
         teamMate.currStateText = "FORM F";
-        Debug.Log(teamMate.transform.name + " is in the formation fight state ");
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)

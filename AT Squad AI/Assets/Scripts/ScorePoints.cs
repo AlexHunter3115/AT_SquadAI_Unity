@@ -48,16 +48,14 @@ public class ScorePoints : MonoBehaviour
         }
 
         Color color = Color.Lerp(Color.red, Color.blue, UIManager.instance.pointsSlider.value / 100f);
-        // Set the color of the light
+    
         light.color = color;
-
 
         if (UIManager.instance.pointsSlider.value > 99.99f)
         {
-            Debug.Log($"you win");
+            UIManager.instance.AddNewMessageToQueue("YOU WIN, YOU CAPPED THE POINT", Color.green);
             Application.Quit();
         }
-
 
         capturing = false;
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TmAdvance : TeamMateBaseState
 {
-    // called when the thing dies, comesback to life when the medic heals
     public override void EnterState(TeamMateStateManager teamMate)
     {
         UIManager.instance.SetIcon(1, teamMate.memberName);
@@ -67,8 +66,6 @@ public class TmAdvance : TeamMateBaseState
                     teamMate.currCoverType = TeamMateStateManager.CoverType.FORWARD;
                 }
             }
-
-
             teamMate.ChangeState(2);
         }
         //teamMate.ChangeState(7);

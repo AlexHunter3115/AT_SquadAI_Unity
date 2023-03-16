@@ -10,6 +10,8 @@ public class TmGranedier : TeamMateBaseState
     {
         if (teamMate.abilityUsage == 0)
         {
+            UIManager.instance.AddNewMessageToQueue($"{teamMate.nameText.text} has no more ability usages", Color.red);
+
             if (teamMate.Allerted)
             {
                 teamMate.ChangeState(1);
@@ -18,6 +20,8 @@ public class TmGranedier : TeamMateBaseState
             {
                 teamMate.ChangeState(7);
             }
+
+            return;
         }
 
         if (teamMate.Allerted)
@@ -54,7 +58,8 @@ public class TmGranedier : TeamMateBaseState
         }
         else 
         {
-            SetMessage($"The Granadier {teamMate.name} has no targets to use tis ability on", new Color(1, 0.7f, 0, 1));
+            teamMate.abilityUsage += 1;
+            SetMessage($"The Granadier {teamMate.nameText.text} has no targets to use tis ability on", new Color(1, 0.7f, 0, 1));
         }
     }
 }

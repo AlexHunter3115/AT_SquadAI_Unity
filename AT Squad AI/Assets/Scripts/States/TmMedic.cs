@@ -1,25 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 public class TmMedic : TeamMateBaseState
 {
-
-
     private int idx = 0;
     private float lowestHealth = 101;
 
-
-    // called when the thing dies, comesback to life when the medic heals
     public override void EnterState(TeamMateStateManager teamMate)
     {
-        // get the teammate with lowest health
         lowestHealth = 9999;
-        Debug.Log($"in the medic ability");
 
         if (teamMate.abilityUsage == 0) 
         {
+            UIManager.instance.AddNewMessageToQueue($"{teamMate.nameText.text} has no more ability usages", Color.red);
+
             if (teamMate.Allerted)
             {
                 teamMate.ChangeState(1);
@@ -28,14 +21,12 @@ public class TmMedic : TeamMateBaseState
             {
                 teamMate.ChangeState(7);
             }
+            return;
         }
         else 
         {
-
-
             for (int i = 0; i < SquadManager.instance.uiList.Count; i++)
             {
-
                 float health = SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().healthSlider.value;
 
                 if (health < lowestHealth)
@@ -43,13 +34,12 @@ public class TmMedic : TeamMateBaseState
                     idx = i;
                     lowestHealth = health;
                 }
-
             }
-
-
 
             if (lowestHealth == 100)
             {
+                UIManager.instance.AddNewMessageToQueue($"{teamMate.nameText.text} didnt find anyone to heal", new Color(1, 0.7f, 0, 1));
+
                 if (teamMate.Allerted)
                 {
                     teamMate.ChangeState(1);
@@ -61,13 +51,9 @@ public class TmMedic : TeamMateBaseState
             }
             else
             {
-
                 if (teamMate.name == SquadManager.instance.uiList[idx].name) //it self
                 {
-
                     SquadManager.instance.teamMates[idx].GetComponent<TeamMateStateManager>().AddHealth(45);
-
-
 
                     if (teamMate.Allerted)
                     {
@@ -77,24 +63,15 @@ public class TmMedic : TeamMateBaseState
                     {
                         teamMate.ChangeState(7);
                     }
-
                 }
                 else
                 {
-
                     GoToPoint(SquadManager.instance.teamMates[idx].transform.position, teamMate);
                 }
-
-
-
             }
         }
-
-
-
-
-
     }
+
     public override void OnExit(TeamMateStateManager teamMate)
     {
         // find cover around
@@ -116,7 +93,5 @@ public class TmMedic : TeamMateBaseState
 
             teamMate.abilityUsage = teamMate.abilityUsage - 1;
         }
-
-        //go to teamamet and do the thing
     }
 }

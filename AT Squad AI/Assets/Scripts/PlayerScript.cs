@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class PlayerScript : MonoBehaviour
@@ -50,6 +51,8 @@ public class PlayerScript : MonoBehaviour
     public float lastFire = 0;
     public float inaccuracy = 0.1f;
 
+    public int enemiesKilled = 0;
+
     public GameObject endPoint;
     [SerializeField] GameObject[] muzzleEffect = new GameObject[5];
     [SerializeField] GameObject hitEffect;
@@ -58,6 +61,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] CharacterController charContr;
 
+    private bool showMenu = false;
     public enum FormationType
     {
         SQUARE = 0,
@@ -97,7 +101,6 @@ public class PlayerScript : MonoBehaviour
         playerActions.PatrolPoint.performed += ctx => PatrolPointTeamMates();
         playerActions.AdvanceToPoint.performed += ctx => AdvanceToPointTeamMates();
 
-
         controller = GetComponent<CharacterController>();
         currFormation = FormationType.SQUARE;
     }
@@ -111,12 +114,10 @@ public class PlayerScript : MonoBehaviour
         controlPlayer = true;
         playerInHouse = false;
 
-        UIManager.instance.AddNewMessageToQueue("Keep your troops alive and capture the flag", Color.blue);
-        UIManager.instance.AddNewMessageToQueue("Use Mouse scroll, right mouse click to select your troops", Color.blue);
-        UIManager.instance.AddNewMessageToQueue("To select more troops use shift right mouse buttons", Color.blue);
-        UIManager.instance.AddNewMessageToQueue("You can also use Right Arrow to select all or Left Arrow to deselect all", Color.blue);
-        UIManager.instance.AddNewMessageToQueue("Once a tropp is selected hold the middle mouse button for the different options or Press T to tell it to take cover", Color.blue);
-        UIManager.instance.AddNewMessageToQueue("Press X to toggle the top down view", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("Keep your troops alive and capture the flag.\nUse Mouse scroll, right mouse click to select your troops.\nTo select more troops use shift right mouse button.", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("You can also use Right Arrow to select all or Left Arrow to deselect all.\nOnce a troop is selected hold the middle mouse button for the different options.", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("Press T to opne the cover menu, when this menu is open you can force the selected teamMate to go to the cover of your choice.", Color.blue);
+        UIManager.instance.AddNewMessageToQueue("Press X to toggle the top down view, use the [ and ] to hide floors so its easier to see inside buildings.", Color.blue);
     }
 
 
@@ -394,7 +395,6 @@ public class PlayerScript : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
     }
-
     public void FormationFunction()
     {
 
@@ -409,7 +409,6 @@ public class PlayerScript : MonoBehaviour
 
         SquadManager.instance.ChangeSquadFormation(teamMatesNames);
     }
-
 
 
     private void MultiSelectTeamMate()
@@ -521,7 +520,6 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-
     public void AllTeamDeSelect()
     {
         teamMatesNames.Clear();
@@ -532,7 +530,6 @@ public class PlayerScript : MonoBehaviour
             SquadManager.instance.uiList[i].GetComponent<TeamMateUISlot>().imageBack.color = new Color(0.6f, 0.6f, 0.6f, 1);
         }
     }
-
     private void OneTeamSelectTeamMate()
     {
         RaycastHit outhit;
@@ -565,8 +562,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-
-
     public void MoveFloors()
     {
         if (!controlPlayer)
@@ -576,8 +571,6 @@ public class PlayerScript : MonoBehaviour
             TopViewCamLogic.instance.changeFloorView((int)changeInput);
         }
     }
-
-
     private void CallOptionUIDraw() => UIManager.instance.ToggleOptions();
 
 
@@ -589,11 +582,6 @@ public class PlayerScript : MonoBehaviour
     {
         playerActions.Disable();
     }
-
-
-
-
-
 
 
     private void FindCoverTeamMates()
@@ -725,13 +713,24 @@ public class PlayerScript : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
+    private void OnGUI()
+    {
+        GUIStyle style = GUI.skin.GetStyle("label"); 
+        style.alignment = TextAnchor.UpperRight; 
+       
+        if (showMenu) 
+        {
+            Rect buttonRect = new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50); 
+            if (GUI.Button(buttonRect, "Restart Scene"))
+            { // Draw the button with the specified text
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+        else 
+        {
+            Rect labelRect = new Rect(Screen.width - 125, 0, 100, 50); 
+            GUI.Label(labelRect, $"Enemies killed {enemiesKilled}", style); 
+        }
+    }
 
 }

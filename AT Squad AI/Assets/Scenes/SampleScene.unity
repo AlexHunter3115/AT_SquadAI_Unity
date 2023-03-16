@@ -1082,6 +1082,11 @@ Transform:
   m_Father: {fileID: 1594900777}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &248411227 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7763795438192418900, guid: 03efd48966595a24eb5863b6f88fa950, type: 3}
+  m_PrefabInstance: {fileID: 1389555401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &271091448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,7 +1992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -2830,6 +2835,11 @@ Transform:
   m_Father: {fileID: 605276440}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1000034960 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7763795438192418900, guid: 03efd48966595a24eb5863b6f88fa950, type: 3}
+  m_PrefabInstance: {fileID: 1218452407}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1018256007
 GameObject:
   m_ObjectHideFlags: 0
@@ -3537,11 +3547,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingsList:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 248411227}
+  - {fileID: 1000034960}
   - {fileID: 2014984241}
-  - {fileID: 0}
-  - {fileID: 0}
   currentFloor: 0
   speed: 0.3
 --- !u!20 &1240326497

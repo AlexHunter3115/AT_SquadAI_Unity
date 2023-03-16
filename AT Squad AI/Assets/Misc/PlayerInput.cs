@@ -197,6 +197,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""73952143-99fd-4ef8-af76-42ba503faabe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -551,6 +560,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""ForceGoToCover"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""619b26ca-3674-43bc-8d2d-7ba42f564a64"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -578,6 +598,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_DefendePoint = m_Player.FindAction("DefendePoint", throwIfNotFound: true);
         m_Player_PatrolPoint = m_Player.FindAction("PatrolPoint", throwIfNotFound: true);
         m_Player_AdvanceToPoint = m_Player.FindAction("AdvanceToPoint", throwIfNotFound: true);
+        m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -656,6 +677,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_DefendePoint;
     private readonly InputAction m_Player_PatrolPoint;
     private readonly InputAction m_Player_AdvanceToPoint;
+    private readonly InputAction m_Player_Menu;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -679,6 +701,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @DefendePoint => m_Wrapper.m_Player_DefendePoint;
         public InputAction @PatrolPoint => m_Wrapper.m_Player_PatrolPoint;
         public InputAction @AdvanceToPoint => m_Wrapper.m_Player_AdvanceToPoint;
+        public InputAction @Menu => m_Wrapper.m_Player_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -745,6 +768,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @AdvanceToPoint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceToPoint;
                 @AdvanceToPoint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceToPoint;
                 @AdvanceToPoint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceToPoint;
+                @Menu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -806,6 +832,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @AdvanceToPoint.started += instance.OnAdvanceToPoint;
                 @AdvanceToPoint.performed += instance.OnAdvanceToPoint;
                 @AdvanceToPoint.canceled += instance.OnAdvanceToPoint;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -831,5 +860,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnDefendePoint(InputAction.CallbackContext context);
         void OnPatrolPoint(InputAction.CallbackContext context);
         void OnAdvanceToPoint(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

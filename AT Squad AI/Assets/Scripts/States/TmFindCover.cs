@@ -167,6 +167,7 @@ public class TmFindCover : TeamMateBaseState
                 else
                 {
                     teamMate.ChangeState(7);
+                    UIManager.instance.AddNewMessageToQueue($"{teamMate.nameText.text} could not find any cover", new Color(1, 0.7f, 0, 1));
                     Debug.Log($"sitting on my hands");
                 }
 
