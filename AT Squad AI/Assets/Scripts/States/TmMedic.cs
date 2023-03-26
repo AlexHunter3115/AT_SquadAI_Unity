@@ -55,6 +55,7 @@ public class TmMedic : TeamMateBaseState
                 {
                     SquadManager.instance.teamMates[idx].GetComponent<TeamMateStateManager>().AddHealth(45);
 
+                    teamMate.abilityUsage--;
                     if (teamMate.Allerted)
                     {
                         teamMate.ChangeState(1);
@@ -79,7 +80,7 @@ public class TmMedic : TeamMateBaseState
 
     public override void OnUpdate(TeamMateStateManager teamMate)
     {
-        if (Vector3.Distance(teamMate.transform.position, SquadManager.instance.teamMates[idx].transform.position) < 1f) 
+        if (Vector3.Distance(teamMate.transform.position, SquadManager.instance.teamMates[idx].transform.position) < 1.5f) 
         {
             SquadManager.instance.teamMates[idx].GetComponent<TeamMateStateManager>().AddHealth(30);
             if (teamMate.Allerted) 
@@ -91,7 +92,7 @@ public class TmMedic : TeamMateBaseState
                 teamMate.ChangeState(7);
             }
 
-            teamMate.abilityUsage = teamMate.abilityUsage - 1;
+            teamMate.abilityUsage--;
         }
     }
 }

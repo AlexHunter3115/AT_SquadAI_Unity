@@ -23,18 +23,16 @@ public class SquadManager : MonoBehaviour
 
     public List<GameObject> uiList;
 
+    public LayerMask ignoreCoverLayermask;
 
     private void Awake()
     {
         instance = this;
     }
 
-
-
     // Start is called before the first frame update
     void Start()
     {
-
         playerScript = PlayerScript.instance;
 
         for (int i = 0; i < squadSize; i++)
@@ -81,10 +79,6 @@ public class SquadManager : MonoBehaviour
 
     }
 
-
-
-
-
     private void Update()
     {
         for (int i = 0; i < uiList.Count; i++)
@@ -92,9 +86,6 @@ public class SquadManager : MonoBehaviour
             uiList[i].GetComponent<TeamMateUISlot>().stateText.text = "State: " + teamMates[i].GetComponent<TeamMateStateManager>().currStateText;
         }
     }
-
-
-
 
     public void ChangeSquadFormation(List<string> names) 
     {

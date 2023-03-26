@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class TmDefendPoint : TeamMateBaseState
 {
@@ -21,7 +22,7 @@ public class TmDefendPoint : TeamMateBaseState
         Collider[] hitColliders = Physics.OverlapSphere(teamMate.PatrolPoint, 15);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.transform.tag == "BasicCoverPos")
+            if (hitCollider.transform.CompareTag("BasicCoverPos"))
             {
                 var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
@@ -29,11 +30,12 @@ public class TmDefendPoint : TeamMateBaseState
                 {
                     int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
 
+                    Debug.DrawLine(PlayerScript.instance.transform.position, hitCollider.transform.position, Color.black, 90);
+
                     if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                     {
                         if (RayCasterPoint(hitCollider.transform.position, teamMate.PatrolPoint))
                         {
-
                             teamMate.currCoverTransformVector3 = hitCollider.transform.position;
 
                             teamMate.currCoverTransform = hitCollider.transform;
@@ -69,24 +71,20 @@ public class TmDefendPoint : TeamMateBaseState
         }
         else
         {
-
             found = false;
 
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.transform.tag == "BasicCoverPos")
                 {
-                    //Debug.Log($"fdgfgfdgfgddfgfg");
                     var simpCoverScript = hitCollider.transform.GetComponentInParent<SimpleObjectCover>();
 
                     int idx = simpCoverScript.findIndexCoverTransforms(hitCollider.gameObject);
 
                     if (!simpCoverScript.listOfAvailability[idx])   // if the place is not taken
                     {
-                        //Debug.Log($"this si a free spot");
                         if (RayCasterPoint(hitCollider.transform.position, teamMate.PatrolPoint))
                         {
-                            Debug.Log($"");
                             teamMate.currCoverTransformVector3 = hitCollider.transform.position;
 
                             teamMate.currCoverTransform = hitCollider.transform;

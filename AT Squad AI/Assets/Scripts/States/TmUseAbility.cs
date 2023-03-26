@@ -36,13 +36,3 @@ public class TmUseAbility : TeamMateBaseState
 
     }
 }
-//new TmDead(),
-//new TmFindCover(),
-//new TmGoToCover(),
-//new TmIdleWaiting(),
-//new TmInCoverFight(),
-//new TmInCoverIdle(),
-//new TmInFormationFight(),
-//new TmInFormationIdle(),
-//new TmPatrollingAroundPoint(),
-//new TmUseAbility()

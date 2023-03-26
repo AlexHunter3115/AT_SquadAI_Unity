@@ -23,6 +23,7 @@ public class TmPatrollingAroundPoint : TeamMateBaseState
 
             teamMate.NavMeshAgent.isStopped = true;
 
+            teamMate.AnimatorSetter(0);
             ShootAt(list[0], teamMate);
             LookAt(list[0], teamMate);
         }
@@ -30,7 +31,7 @@ public class TmPatrollingAroundPoint : TeamMateBaseState
         {
             teamMate.NavMeshAgent.isStopped = false;
             teamMate.Allerted = false;
-
+            teamMate.AnimatorSetter(5);
         }
 
         GoToPoint(teamMate.PatrolPoint,teamMate);

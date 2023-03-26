@@ -119,10 +119,8 @@ public class TeamMateStateManager : MonoBehaviour
     public float formationTimer;
     public float formationCooldown;
 
-
     public float shootingTimer; 
     public float shootingCooldown;   // should chnage based on class
-
 
     public float coverTimer;
     public float coverCooldown;
@@ -151,7 +149,6 @@ public class TeamMateStateManager : MonoBehaviour
     public CoverType currCoverType;
     public Vector3 currCoverTransformVector3;
     public Transform currCoverTransform;
-    //public Transform currForcedCoverTransform;
 
     public List<GameObject> enemyList;
 
@@ -160,12 +157,9 @@ public class TeamMateStateManager : MonoBehaviour
     public Text abilityText;
     public Text StateText;
 
-    public LayerMask ignoreCoverLayermask;
-
     public Vector3 PatrolPoint;
 
     public int abilityUsage = 3;
-    public float lastAbilityUsed;
     public float abilityRate= 20f;
 
     [SerializeField] GameObject[] muzzleEffect = new GameObject[5];

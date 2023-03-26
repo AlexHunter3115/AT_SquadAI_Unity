@@ -26,7 +26,7 @@ public class TmGranedier : TeamMateBaseState
 
         if (teamMate.Allerted)
         {
-            teamMate.abilityUsage = teamMate.abilityUsage - 1;
+            teamMate.abilityUsage --;
 
             CallExplosive(teamMate);
 
@@ -58,7 +58,7 @@ public class TmGranedier : TeamMateBaseState
         }
         else 
         {
-            teamMate.abilityUsage += 1;
+            teamMate.abilityUsage ++;
             SetMessage($"The Granadier {teamMate.nameText.text} has no targets to use tis ability on", new Color(1, 0.7f, 0, 1));
         }
     }

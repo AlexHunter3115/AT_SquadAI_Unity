@@ -1,15 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static Unity.VisualScripting.Member;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public abstract class TeamMateBaseState
 {
-
-
-    // abstract should mean empty and ready to be filled
     public abstract void EnterState(TeamMateStateManager teamMate);
     public abstract void OnUpdate(TeamMateStateManager teamMate);
     public abstract void OnExit(TeamMateStateManager teamMate);
@@ -48,16 +42,16 @@ public abstract class TeamMateBaseState
         if (Time.time > teamMate.lastFire + teamMate.fireRate)
         {
             teamMate.lastFire = Time.time;
-            RaycastHit outHit;
-            if (Physics.Raycast(teamMate.transform.position + new Vector3(0,0.5f,0), direction, out outHit, Mathf.Infinity, PlayerScript.instance.Hittable))
+            RaycastHit hit;
+            if (Physics.Raycast(teamMate.transform.position + new Vector3(0,0.5f,0), direction, out hit, Mathf.Infinity, PlayerScript.instance.Hittable))
             {
-                if (outHit.transform.tag == "Enemy")
+                if (hit.transform.tag == "Enemy")
                 {
-                    outHit.transform.GetComponentInParent<EnemyScript>().TakeDamage(Random.Range(4,10));
+                    hit.transform.GetComponentInParent<EnemyScript>().TakeDamage(Random.Range(4,10));
                 }
                 teamMate.AnimatorSetter(0);
 
-                teamMate.InstaStuff(outHit);
+                teamMate.InstaStuff(hit);
             }
         }
     }
@@ -79,14 +73,12 @@ public abstract class TeamMateBaseState
             {
                 if (!navMesh.hasPath || navMesh.velocity.sqrMagnitude == 0f)
                 {
-                    //Debug.Log($"this should have returned true");
                     return true;
                 }
             }
         }
 
         return false;
-
     }
 
     public bool RayCasterPlayer(Vector3 coverPos,Vector3 playerPos)
@@ -96,28 +88,27 @@ public abstract class TeamMateBaseState
         {
             if (hit.transform.tag == "Player")
             {
+                Debug.DrawLine(coverPos, hit.point, Color.yellow, 90);
                 return true;
             }
         }
 
         return false; 
-    
     }
 
     public bool RayCasterPoint(Vector3 coverPos, Vector3 pointPos)
     {
         RaycastHit hit;
-        if (Physics.Raycast(coverPos, (pointPos - coverPos), out hit, Vector3.Distance(coverPos, pointPos) , ~6))
+        if (Physics.Linecast(coverPos, pointPos, out hit, ~6))
         {
-            Debug.Log($"{hit.transform.name}");
-                return true;
-            
+            Debug.DrawLine(pointPos, hit.point,Color.green,90);
+            return true;
         }
         else 
         {
+            Debug.DrawLine(pointPos, coverPos, Color.blue, 90);
             return false;
         }
-
     }
 
     public void SetMessage(string text, Color color) => UIManager.instance.SendMessage(text, color);
@@ -135,19 +126,21 @@ public abstract class TeamMateBaseState
 
         foreach (var enemy in enemyPos)
         {
-
-            if (Physics.Linecast(coverPos, enemy.transform.position,out hit, SquadManager.instance.teamMates[0].GetComponent<TeamMateStateManager>().ignoreCoverLayermask))
+            if (Physics.Linecast(coverPos, enemy.transform.position,out hit, SquadManager.instance.ignoreCoverLayermask))
             {
                 if (hit.transform.tag == "Enemy")
                 {
+                    Debug.DrawLine(coverPos, hit.point, Color.red, 90);
                     return true;
                 }
                 else
                 {
+                    Debug.DrawLine(coverPos, hit.point, Color.red, 90);
                 }
             }
             else 
             {
+                Debug.DrawLine(coverPos, enemy.transform.position, Color.red, 90);
                 return true;
             }
 
@@ -162,7 +155,7 @@ public abstract class TeamMateBaseState
     {
         List<GameObject> enemiesList = new List<GameObject> ();
 
-        Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 10);
+        Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 12);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.transform.tag == "Enemy")

@@ -78,6 +78,7 @@ public class UIManager : MonoBehaviour
             {
 
                 useAbilityOBj.SetActive(false);
+                optionPatrolPoint.SetActive(false);
                 //check for majority?
 
                 var holding = 0;

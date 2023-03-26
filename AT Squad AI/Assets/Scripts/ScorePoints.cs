@@ -11,10 +11,9 @@ public class ScorePoints : MonoBehaviour
     public float gainSpeed;
     public float loseSpeed;
 
+    bool captured = false;
 
     public Light light;
-
-
 
     private void Start()
     {
@@ -23,7 +22,6 @@ public class ScorePoints : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
         if (other.transform.tag == "Player" || other.transform.tag == "TeamMate")
         {
 
@@ -34,29 +32,30 @@ public class ScorePoints : MonoBehaviour
         }
     }
 
-
-
-    // this is muhc fasetr for some reason
     private void Update()
     {
-        if (UIManager.instance.pointsSlider.value > 0) 
+        if (!captured) 
         {
-            if (!capturing) 
+            if (UIManager.instance.pointsSlider.value > 0)
             {
-                UIManager.instance.pointsSlider.value = UIManager.instance.pointsSlider.value - (Time.deltaTime * loseSpeed);
+                if (!capturing)
+                {
+                    UIManager.instance.pointsSlider.value = UIManager.instance.pointsSlider.value - (Time.deltaTime * loseSpeed);
+                }
             }
+
+            Color color = Color.Lerp(Color.red, Color.blue, UIManager.instance.pointsSlider.value / 100f);
+
+            light.color = color;
+
+            if (UIManager.instance.pointsSlider.value > 99.99f)
+            {
+                captured = true;
+                UIManager.instance.AddNewMessageToQueue("YOU WIN, YOU CAPPED THE POINT", Color.green);
+                UIManager.instance.AddNewMessageToQueue("YOU WIN, YOU CAPPED THE POINT", Color.green);
+            }
+
+            capturing = false;
         }
-
-        Color color = Color.Lerp(Color.red, Color.blue, UIManager.instance.pointsSlider.value / 100f);
-    
-        light.color = color;
-
-        if (UIManager.instance.pointsSlider.value > 99.99f)
-        {
-            UIManager.instance.AddNewMessageToQueue("YOU WIN, YOU CAPPED THE POINT", Color.green);
-            Application.Quit();
-        }
-
-        capturing = false;
     }
 }

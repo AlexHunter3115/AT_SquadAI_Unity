@@ -20,7 +20,6 @@ public class TmbehindCoverLateralIdle : TeamMateBaseState
     {
         UIManager.instance.SetIcon(3, teamMate.memberName);
         showing = false;
-        Debug.Log(teamMate.transform.name + " is in the lateral idle state ");
         teamMate.currStateText = "BCLI";
 
         showingCooldown = 3f; //set the timer for how long the obj is going to be showing
