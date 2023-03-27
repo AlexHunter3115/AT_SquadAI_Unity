@@ -52,7 +52,7 @@ public class ScorePoints : MonoBehaviour
             {
                 captured = true;
                 UIManager.instance.AddNewMessageToQueue("YOU WIN, YOU CAPPED THE POINT", Color.green);
-                UIManager.instance.AddNewMessageToQueue("YOU WIN, YOU CAPPED THE POINT", Color.green);
+                UIManager.instance.AddNewMessageToQueue("You can restart by pressing escape", Color.green);
             }
 
             capturing = false;

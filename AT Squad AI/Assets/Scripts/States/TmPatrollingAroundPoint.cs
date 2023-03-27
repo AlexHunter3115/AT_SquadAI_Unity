@@ -10,7 +10,7 @@ public class TmPatrollingAroundPoint : TeamMateBaseState
     public override void EnterState(TeamMateStateManager teamMate)
     {
         UIManager.instance.SetIcon(1, teamMate.memberName);
-        teamMate.currStateText = "PATROLLING AROUND P";
+        teamMate.currStateText = "PATROLLING";
     }
 
     public override void OnUpdate(TeamMateStateManager teamMate)
@@ -36,7 +36,7 @@ public class TmPatrollingAroundPoint : TeamMateBaseState
 
         GoToPoint(teamMate.PatrolPoint,teamMate);
 
-        if (ReachedDestination(teamMate)) 
+        if (DistanceBasedDestinationReach(teamMate,1.5f)) 
         {
             Vector3 newPos = new Vector3(teamMate.PatrolPoint.x + Random.Range(-7,7) , teamMate.transform.position.y, teamMate.PatrolPoint.z + Random.Range(-7, 7));
             teamMate.PatrolPoint = newPos;

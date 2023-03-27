@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -84,6 +80,7 @@ public class PlayerScript : MonoBehaviour
         playerActions.moveFloorsView.performed += ctx => MoveFloors();
         playerActions.SelectAllTeamMates.performed += ctx => AllTeamSelect();
         playerActions.DeselectAllTeamMates.performed += ctx => AllTeamDeSelect();
+        playerActions.Menu.performed += ctx => ToggleMenu();
 
         playerActions.ShowOptions.performed += ctx => CallOptionUIDraw();
         playerActions.ShowCoverPositions.performed += ctx => ToggleCoverPos();
@@ -120,6 +117,14 @@ public class PlayerScript : MonoBehaviour
         UIManager.instance.AddNewMessageToQueue("Press X to toggle the top down view, use the [ and ] to hide floors so its easier to see inside buildings.", Color.blue);
     }
 
+
+    private void ToggleMenu() 
+    {
+        showMenu = !showMenu;
+
+        Time.timeScale = showMenu ? 0 : 1;
+        Cursor.lockState = showMenu ? CursorLockMode.None : CursorLockMode.Locked;
+    }
 
     private void ToggleCoverPos() => commandingTroops = !commandingTroops;
 
@@ -712,7 +717,6 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-
     private void OnGUI()
     {
         GUIStyle style = GUI.skin.GetStyle("label"); 
@@ -721,9 +725,11 @@ public class PlayerScript : MonoBehaviour
         if (showMenu) 
         {
             Rect buttonRect = new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50); 
-            if (GUI.Button(buttonRect, "Restart Scene"))
+            if (GUI.Button(buttonRect, "Restart Game"))
             { // Draw the button with the specified text
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+                Time.timeScale =1;
             }
         }
         else 

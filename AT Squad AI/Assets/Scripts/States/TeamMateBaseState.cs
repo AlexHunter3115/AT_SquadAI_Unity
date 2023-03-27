@@ -81,6 +81,16 @@ public abstract class TeamMateBaseState
         return false;
     }
 
+    public bool DistanceBasedDestinationReach(TeamMateStateManager teamMate,float distance)
+    {
+        if (teamMate.NavMeshAgent.remainingDistance > distance)
+            return false;
+        else
+            return true;
+    }
+
+
+
     public bool RayCasterPlayer(Vector3 coverPos,Vector3 playerPos)
     {
         RaycastHit hit;
@@ -155,7 +165,7 @@ public abstract class TeamMateBaseState
     {
         List<GameObject> enemiesList = new List<GameObject> ();
 
-        Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 12);
+        Collider[] hitColliders = Physics.OverlapSphere(teamMate.transform.position, 10);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.transform.tag == "Enemy")
