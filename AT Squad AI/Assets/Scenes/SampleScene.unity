@@ -564,6 +564,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5936436804472220601, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
+      propertyPath: moveFromStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5936436805177591649, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3029,6 +3033,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5936436804472220601, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
+      propertyPath: moveFromStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5936436805177591649, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -4868,6 +4876,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5936436804472220601, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
+      propertyPath: moveFromStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5936436805177591649, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5287,6 +5299,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5936436804472220601, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
+      propertyPath: moveFromStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5936436805177591649, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5684,6 +5700,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5936436804472220600, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936436804472220601, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}
+      propertyPath: moveFromStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5936436805177591649, guid: 4a49f442003073b4a9ce05517155e1fd, type: 3}

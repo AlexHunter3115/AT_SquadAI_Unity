@@ -37,6 +37,8 @@ public class EnemyScript : MonoBehaviour
 
     private bool dead = false;
 
+    public bool moveFromStart = true;
+
     [SerializeField] GameObject[] muzzleEffect = new GameObject[5];
     [SerializeField] GameObject hitEffect;
     [SerializeField] GameObject muzzlePoint;
@@ -46,28 +48,32 @@ public class EnemyScript : MonoBehaviour
         SetAnim(2);
 
         agent = GetComponent<NavMeshAgent>();
-
-        agent.destination = enemySpawnerManager.instance.point.position;
-        move = true;
-        agent.isStopped = false;
+        if (moveFromStart)
+        {
+            agent.destination = enemySpawnerManager.instance.point.position;
+            move = true;
+            agent.isStopped = false;
+        }
     }
 
-    public void TakeDamage(int _damage) 
+    public void TakeDamage(int _damage)
     {
         if (dead) { return; }
         health = health - _damage;
 
-        if (health < 0) 
+        if (health < 0)
         {
+            health = 0;
             dead = true;
             SetAnim(1);
         }
-        else { healthSlider.value = health; }
+
+        healthSlider.value = health;
 
         shotAt = true;
     }
 
-    public void CallMove() 
+    public void CallMove()
     {
         agent.destination = enemySpawnerManager.instance.point.position;
         SetAnim(4);
@@ -100,21 +106,21 @@ public class EnemyScript : MonoBehaviour
         else if (teamMates.Count == 0 && shotAt == false) //idle
         {
             if (move)
-             agent.isStopped = false;
+                agent.isStopped = false;
         }
 
-        if(agent.velocity.magnitude > 0.4f  &&  !agent.isStopped )
+        if (agent.velocity.magnitude > 0.4f && !agent.isStopped)
         {
             SetAnim(4);
         }
-        else 
+        else
         {
             SetAnim(2);
         }
     }
 
 
-    private void ShootAt(List<GameObject> teamMates) 
+    private void ShootAt(List<GameObject> teamMates)
     {
         var _direction = (teamMates[0].transform.position - transform.position).normalized;
 
@@ -136,7 +142,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     outHit.transform.root.GetComponent<TeamMateStateManager>().TakeDamage(5);
                 }
-              
+
                 GameObject newRef = Instantiate(PlayerScript.instance.bulletPrefab);
                 newRef.transform.position = outHit.point;
                 newRef.transform.parent = outHit.transform;
@@ -163,7 +169,7 @@ public class EnemyScript : MonoBehaviour
     /// 0 shoot on -- 1 die  --  2 idle -- 3 duck -- 4 run 
     /// </summary>
     /// <param name="animationIndex"></param>
-    public void SetAnim(int animationIndex) 
+    public void SetAnim(int animationIndex)
     {
         switch (animationIndex)
         {
@@ -188,38 +194,18 @@ public class EnemyScript : MonoBehaviour
                 animator.SetBool("Idle", false);
                 break;
 
-        
+
             default:
                 break;
         }
     }
 
 
-    private IEnumerator CallDead() 
+    private IEnumerator CallDead()
     {
         yield return new WaitForSeconds(2f);
         PlayerScript.instance.enemiesKilled++;
         Destroy(gameObject);
     }
-
-    public bool ReachedDestination()
-    {
-        var navMesh = agent;
-
-        if (!navMesh.pathPending)
-        {
-            if (navMesh.remainingDistance <= navMesh.stoppingDistance)
-            {
-                if (!navMesh.hasPath || navMesh.velocity.sqrMagnitude == 0f)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-
-    }
-
 
 }
